@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ortu Pintar — Asisten Tumbuh Kembang Anak</title>
+
+<meta name="description" content="Ortu Pintar — asisten tumbuh kembang anak terlengkap untuk orang tua Indonesia. Kurva pertumbuhan WHO, jadwal vaksinasi IDAI, milestone perkembangan, MPASI, dan lebih banyak lagi.">
+<meta name="keywords" content="ortu pintar, tumbuh kembang anak, vaksinasi IDAI, milestone bayi, MPASI, kurva WHO, parenting Indonesia">
+<meta name="author" content="dr. Mochamad Rifqie N K">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ortu Pintar — Asisten Tumbuh Kembang Anak 🌱">
+<meta property="og:description" content="App lengkap untuk orang tua Indonesia: kurva pertumbuhan, vaksinasi, milestone, MPASI. Gratis!">
+<meta property="og:image" content="https://ortu-pintar.vercel.app/icon-512.png">
+<meta property="og:url" content="https://ortu-pintar.vercel.app">
+<meta property="og:locale" content="id_ID">
+
+<meta name="theme-color" content="#00897B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ortu Pintar">
+<link rel="manifest" href="manifest.json">
+
+<style>
+:root {
+  --primary: #00897B;
+  --primary-dark: #00695C;
+  --primary-light: #E0F2F1;
+  --primary-mid: #26A69A;
+  --secondary: #F57C00;
+  --secondary-light: #FFF3E0;
+  --accent: #7B1FA2;
+  --accent-light: #F3E5F5;
+  --success: #43A047;
+  --success-light: #E8F5E9;
+  --danger: #E53935;
+  --danger-light: #FFEBEE;
+  --warning: #F9A825;
+  --warning-light: #FFFDE7;
+  --info: #1E88E5;
+  --info-light: #E3F2FD;
+  --gray-100: #f0f7f6;
+  --gray-200: #e0eded;
+  --gray-600: #78909C;
+  --gray-800: #37474F;
+  --white: #ffffff;
+  --bg-body: #f0f7f6;
+  --bg-card: #ffffff;
+  --bg-tab: #f0f7f6;
+  --text-primary: #263238;
+  --text-secondary: #78909C;
+  --border-card: rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 12px rgba(0,137,123,0.10);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+body.dark-mode {
+  --bg-body: #0A1A18;
+  --bg-card: #112420;
+  --bg-tab: #0A1A18;
+  --text-primary: #E0F2F1;
+  --text-secondary: #80CBC4;
+  --gray-100: #142E2A;
+  --gray-200: #1A3A35;
+  --gray-600: #80CBC4;
+  --gray-800: #E0F2F1;
+  --white: #112420;
+  --primary-light: #0D2E2A;
+  --border-card: rgba(255,255,255,0.06);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+body.dark-mode { background: var(--bg-body); color: var(--text-primary); }
+body.dark-mode .card { background: var(--bg-card) !important; border-color: var(--border-card) !important; }
+body.dark-mode .bottom-nav { background: #071410; border-top-color: #142E2A; }
+body.dark-mode .nav-item { color: var(--text-secondary); }
+body.dark-mode .nav-item.active { color: var(--primary-mid); }
+body.dark-mode .app-header { background: linear-gradient(135deg,#071410,#0A2420,#00695C); }
+body.dark-mode .section-title { color: var(--primary-mid) !important; }
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+  background: #1A3A35 !important; color: var(--text-primary) !important; border-color: #1E4A45 !important;
+}
+body.dark-mode .menu-icon-btn { background: var(--bg-card); border-color: var(--border-card); }
+body.dark-mode .m-label { color: var(--text-secondary); }
+body.dark-mode .feature-modal { background: var(--bg-tab); }
+body.dark-mode .modal-topbar { background: #071410; border-bottom: 1px solid #142E2A; }
+body.dark-mode .modal-body { background: var(--bg-tab); }
+body.dark-mode .vaksin-item { background: #142E2A; border-color: #1E4A45; }
+body.dark-mode .milestone-card { background: #142E2A !important; }
+body.dark-mode .cs-header { background: var(--bg-card) !important; border-color: var(--border-card) !important; }
+body.dark-mode .cs-item { background: #142E2A; border-color: #1E4A45; }
+body.dark-mode .cs-item.checked { background: #0D2E1A !important; }
+body.dark-mode .quick-item { background: var(--bg-card); }
+body.dark-mode .jurnal-entry { background: #142E2A; }
+body.dark-mode .tab-panel { background: var(--bg-tab); }
+
+body, body * { transition: background-color 0.25s ease, color 0.15s ease, border-color 0.2s ease; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+button, [onclick], .menu-icon-btn, .cs-header, .nav-item, .quick-item, .vaksin-item {
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer;
+}
+button:active, [onclick]:active { opacity: 0.85; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-body);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── TOAST ── */
+#toastContainer {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  width: 92%; max-width: 420px; z-index: 9999;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.toast {
+  background: white; border-radius: 14px;
+  padding: 12px 16px; display: flex; align-items: flex-start; gap: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15); pointer-events: all;
+  animation: toastIn 0.3s ease; border-left: 4px solid var(--primary);
+}
+.toast.success { border-left-color: var(--success); }
+.toast.danger { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+.toast-icon { font-size: 20px; flex-shrink: 0; }
+.toast-title { font-size: 13px; font-weight: 700; color: var(--gray-800); }
+.toast-msg { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+@keyframes toastIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── APP HEADER ── */
+.app-header {
+  background: linear-gradient(135deg, #004D40 0%, #00695C 40%, #00897B 100%);
+  color: white; padding: 20px 16px 24px; position: relative; overflow: hidden;
+}
+.app-header::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+.app-header::after {
+  content: ''; position: absolute; bottom: -20px; left: 30px;
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.app-logo { display: flex; align-items: center; gap: 8px; }
+.app-logo-icon { font-size: 26px; }
+.app-logo-text { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+.header-actions { display: flex; gap: 8px; }
+.hdr-btn {
+  background: rgba(255,255,255,0.15); border: none; color: white;
+  border-radius: 20px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+}
+.child-info-box {
+  background: rgba(255,255,255,0.12); border-radius: 14px;
+  padding: 14px 16px; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 14px;
+}
+.child-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(255,255,255,0.25); display: flex; align-items: center;
+  justify-content: center; font-size: 26px; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.child-name { font-size: 17px; font-weight: 800; }
+.child-age { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+.child-setup-btn {
+  background: rgba(255,255,255,0.2); border: 1px dashed rgba(255,255,255,0.5);
+  border-radius: 14px; padding: 14px 16px; color: white; width: 100%;
+  text-align: left; display: flex; align-items: center; gap: 10px; font-size: 13px;
+}
+.header-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.hstat-card {
+  background: rgba(255,255,255,0.13); border-radius: 12px;
+  padding: 10px; text-align: center;
+}
+.hstat-val { font-size: 15px; font-weight: 800; }
+.hstat-lbl { font-size: 9px; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+
+/* ── SMART INSIGHT BANNER ── */
+.insight-banner {
+  margin: 12px 12px 0; background: white; border-radius: var(--radius);
+  padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: var(--shadow-card); border-left: 4px solid var(--primary);
+}
+.insight-icon { font-size: 20px; flex-shrink: 0; }
+.insight-text { font-size: 12px; color: var(--gray-800); line-height: 1.5; }
+.insight-title { font-weight: 700; font-size: 12px; color: var(--primary-dark); margin-bottom: 2px; }
+
+/* ── MAIN CONTENT ── */
+.main-content { background: var(--bg-body); }
+.tab-panel { display: none; background: var(--bg-body); min-height: calc(100vh - 160px); }
+.tab-panel.active { display: block; }
+
+/* ── SECTION ── */
+.section-title {
+  font-size: 13px; font-weight: 700; color: var(--primary-dark);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 14px 14px 8px; display: flex; align-items: center; gap: 6px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card); border-radius: var(--radius);
+  border: 1px solid var(--border-card); box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.card-pad { padding: 14px 16px; }
+.card-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+.card-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* ── MENU GRID ── */
+.menu-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px; padding: 4px 12px 12px; background: var(--bg-body);
+}
+.menu-icon-btn {
+  background: var(--bg-card); border: 1px solid var(--border-card);
+  border-radius: 14px; padding: 12px 4px; text-align: center;
+  box-shadow: 0 2px 8px rgba(0,137,123,0.06);
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.menu-icon-btn:active { transform: scale(0.96); }
+.m-icon { font-size: 26px; line-height: 1; }
+.m-label { font-size: 10px; font-weight: 600; color: var(--text-secondary); line-height: 1.3; }
+
+/* ── QUICK CARDS ── */
+.quick-scroll { display: flex; gap: 10px; padding: 4px 12px 12px; overflow-x: auto; scrollbar-width: none; }
+.quick-scroll::-webkit-scrollbar { display: none; }
+.quick-item {
+  background: var(--bg-card); border-radius: 14px; padding: 12px 14px;
+  min-width: 130px; border: 1px solid var(--border-card); flex-shrink: 0;
+  box-shadow: var(--shadow-card);
+}
+.qi-label { font-size: 10px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
+.qi-val { font-size: 15px; font-weight: 800; color: var(--text-primary); margin-top: 4px; }
+.qi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.qi-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-card); border-top: 1px solid var(--gray-200);
+  display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -2px 20px rgba(0,137,123,0.08);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 8px 4px 6px; color: var(--text-secondary); border: none;
+  background: none; font-size: 10px; font-weight: 600; gap: 3px;
+}
+.nav-item .nav-icon { font-size: 20px; }
+.nav-item.active { color: var(--primary); }
+.nav-item.active .nav-icon { transform: scale(1.1); }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 700;
+}
+.badge-success { background: var(--success-light); color: var(--success); }
+.badge-warning { background: var(--warning-light); color: var(--warning); }
+.badge-danger { background: var(--danger-light); color: var(--danger); }
+.badge-primary { background: var(--primary-light); color: var(--primary-dark); }
+.badge-gray { background: var(--gray-200); color: var(--gray-600); }
+
+/* ── BUTTONS ── */
+.btn {
+  border: none; border-radius: 12px; padding: 11px 18px;
+  font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex;
+  align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:active { background: var(--primary-dark); }
+.btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-full { width: 100%; justify-content: center; }
+.btn-sm { padding: 7px 12px; font-size: 11px; border-radius: 9px; }
+
+/* ── FORM INPUTS ── */
+.form-group { margin-bottom: 12px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; display: block; }
+.form-input {
+  width: 100%; padding: 10px 12px; border: 1.5px solid var(--gray-200);
+  border-radius: 10px; font-size: 14px; color: var(--text-primary);
+  background: var(--bg-card); outline: none; font-family: inherit;
+}
+.form-input:focus { border-color: var(--primary); }
+
+/* ── FEATURE MODAL ── */
+.feature-modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg-tab); z-index: 200; display: none;
+  flex-direction: column; overflow: hidden;
+}
+.feature-modal.active { display: flex; }
+.modal-topbar {
+  background: var(--bg-card); padding: 12px 16px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--gray-200);
+  flex-shrink: 0;
+}
+.modal-back {
+  background: none; border: none; color: var(--primary);
+  font-size: 22px; padding: 4px; line-height: 1;
+}
+.modal-title { font-size: 16px; font-weight: 700; color: var(--text-primary); flex: 1; }
+.modal-body { flex: 1; overflow-y: auto; padding: 14px 14px 30px; }
+
+/* ── SPLASH ── */
+#splashScreen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(160deg, #004D40 0%, #00897B 50%, #26A69A 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: white; gap: 16px;
+}
+.splash-icon { font-size: 72px; animation: splashBounce 0.6s ease; }
+.splash-title { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+.splash-sub { font-size: 13px; opacity: 0.8; }
+.splash-loader {
+  width: 50px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 4px; overflow: hidden; margin-top: 8px;
+}
+.splash-loader-bar {
+  height: 100%; background: white; border-radius: 4px; width: 0;
+  animation: splashLoad 1.8s ease forwards;
+}
+@keyframes splashBounce { from { transform: scale(0.5) translateY(20px); opacity:0; } to { transform:scale(1) translateY(0); opacity:1; } }
+@keyframes splashLoad { 0%{width:0} 100%{width:100%} }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { background: var(--gray-200); border-radius: 6px; height: 8px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+.progress-green { background: linear-gradient(90deg, var(--success), #66BB6A); }
+.progress-orange { background: linear-gradient(90deg, var(--secondary), #FFB74D); }
+.progress-teal { background: linear-gradient(90deg, var(--primary), var(--primary-mid)); }
+
+/* ── VAKSIN ── */
+.vaksin-group-title { font-size: 12px; font-weight: 700; color: var(--text-secondary); padding: 10px 0 6px; text-transform: uppercase; letter-spacing: 0.3px; }
+.vaksin-item {
+  background: var(--gray-100); border-radius: 12px; padding: 12px 14px;
+  margin-bottom: 8px; border: 1.5px solid var(--gray-200);
+  display: flex; align-items: center; gap: 12px;
+}
+.vaksin-status { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.vs-done { background: var(--success-light); }
+.vs-soon { background: var(--warning-light); }
+.vs-pending { background: var(--gray-200); }
+.vaksin-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.vaksin-desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.vaksin-date { font-size: 11px; font-weight: 600; margin-left: auto; flex-shrink: 0; }
+
+/* ── MILESTONE ── */
+.milestone-domain { margin-bottom: 16px; }
+.milestone-domain-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.milestone-card {
+  background: var(--gray-100) !important; border-radius: 12px;
+  padding: 10px 12px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--gray-200);
+}
+.milestone-check {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid var(--gray-200); background: white;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.milestone-check.done { background: var(--success); border-color: var(--success); color: white; }
+.milestone-text { font-size: 12px; color: var(--text-primary); flex: 1; }
+.milestone-redflag { font-size: 10px; color: var(--danger); margin-top: 2px; }
+
+/* ── GROWTH CHART ── */
+.growth-canvas-wrap { padding: 0 12px 12px; }
+#growthCanvas { width: 100%; border-radius: 12px; background: white; box-shadow: var(--shadow-card); }
+
+/* ── CHECKLIST SECTION ── */
+.checklist-section { border-radius: 14px; overflow: hidden; margin-bottom: 10px; border: 1.5px solid var(--gray-200); }
+.cs-header {
+  background: var(--bg-card); padding: 12px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cs-title { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.cs-count { font-size: 12px; color: var(--text-secondary); }
+.cs-chevron { font-size: 14px; color: var(--text-secondary); transition: transform 0.2s; }
+.cs-header.open .cs-chevron { transform: rotate(180deg); }
+.cs-body { display: none; padding: 8px 10px 10px; background: var(--bg-body); }
+.cs-body.open { display: block; }
+.cs-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--gray-200);
+  background: var(--bg-card); margin-bottom: 6px;
+}
+.cs-item:last-child { margin-bottom: 0; }
+.cs-item.checked { background: var(--success-light); border-color: #A5D6A7; }
+.cs-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--success); flex-shrink: 0; }
+.cs-item-text { font-size: 12px; color: var(--text-primary); flex: 1; line-height: 1.4; }
+.cs-item.checked .cs-item-text { color: var(--success); text-decoration: line-through; }
+
+/* ── JOURNAL ── */
+.jurnal-entry {
+  background: var(--bg-card); border-radius: 14px; padding: 12px 14px;
+  margin-bottom: 10px; border: 1px solid var(--border-card); box-shadow: var(--shadow-card);
+}
+.jurnal-date { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.jurnal-title { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.jurnal-text { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+.jurnal-img { width: 100%; border-radius: 10px; margin-top: 8px; max-height: 200px; object-fit: cover; }
+.jurnal-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.jurnal-tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+
+/* ── MPASI ── */
+.mpasi-phase-card {
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; color: white;
+  display: flex; align-items: center; gap: 12px;
+}
+.mpasi-icon { font-size: 32px; flex-shrink: 0; }
+.mpasi-title { font-size: 15px; font-weight: 800; }
+.mpasi-sub { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+.food-card {
+  background: var(--bg-card); border-radius: 12px; padding: 12px 14px;
+  margin-bottom: 8px; border: 1px solid var(--border-card);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.food-icon { font-size: 28px; flex-shrink: 0; }
+.food-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.food-desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4; }
+
+/* ── SLEEP LOG ── */
+.sleep-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--gray-200); }
+.sleep-row:last-child { border-bottom: none; }
+.sleep-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+.sleep-time { font-size: 13px; font-weight: 700; color: var(--text-primary); min-width: 110px; }
+.sleep-dur { font-size: 12px; color: var(--text-secondary); }
+.sleep-type { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; margin-left: auto; }
+.st-night { background: var(--info-light); color: var(--info); }
+.st-nap { background: var(--secondary-light); color: var(--secondary); }
+
+/* ── SICK LOG ── */
+.sick-entry {
+  background: var(--bg-card); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+  border-left: 4px solid var(--danger); border: 1px solid var(--border-card);
+  border-left: 4px solid var(--danger);
+}
+.sick-date { font-size: 11px; color: var(--text-secondary); }
+.sick-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
+.sick-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.temp-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700;
+}
+.temp-normal { background: var(--success-light); color: var(--success); }
+.temp-fever { background: var(--danger-light); color: var(--danger); }
+.temp-subfebris { background: var(--warning-light); color: var(--warning); }
+
+/* ── SETTINGS PROFILE ── */
+.profile-hero {
+  background: linear-gradient(135deg, #004D40, #00897B);
+  padding: 28px 16px; text-align: center; color: white;
+}
+.profile-avatar-wrap { position: relative; display: inline-block; margin-bottom: 12px; }
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); font-size: 40px; display: flex; align-items: center; justify-content: center; border: 3px solid rgba(255,255,255,0.5); margin: 0 auto 10px; }
+.profile-name { font-size: 20px; font-weight: 800; }
+.profile-age { font-size: 13px; opacity: 0.85; }
+
+/* ── EDUKASI ── */
+.edukasi-cat { display: flex; gap: 8px; padding: 4px 12px 12px; overflow-x: auto; scrollbar-width: none; }
+.edukasi-cat::-webkit-scrollbar { display: none; }
+.ecat-btn {
+  flex-shrink: 0; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--gray-200); background: var(--bg-card); color: var(--text-secondary);
+}
+.ecat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.artikel-card {
+  background: var(--bg-card); border-radius: 14px; margin-bottom: 10px;
+  border: 1px solid var(--border-card); overflow: hidden; box-shadow: var(--shadow-card);
+}
+.artikel-img { width: 100%; height: 120px; background: linear-gradient(135deg, var(--primary-light), var(--gray-200)); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+.artikel-body { padding: 12px 14px; }
+.artikel-cat { font-size: 10px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 4px; }
+.artikel-title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.4; }
+.artikel-preview { font-size: 12px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+
+/* ── DOA ANAK ── */
+.doa-card {
+  background: linear-gradient(135deg, #1B5E20, #2E7D32);
+  border-radius: 16px; padding: 18px 16px; margin-bottom: 12px; color: white;
+}
+.doa-arab { font-size: 20px; line-height: 1.8; text-align: right; font-family: 'Traditional Arabic', serif; margin-bottom: 10px; direction: rtl; }
+.doa-latin { font-size: 12px; font-style: italic; opacity: 0.85; margin-bottom: 6px; }
+.doa-arti { font-size: 12px; opacity: 0.9; line-height: 1.5; }
+.doa-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+
+/* ── ONBOARDING ── */
+#onboardingModal {
+  position: fixed; inset: 0; z-index: 5000; background: rgba(0,0,0,0.7);
+  display: none; align-items: flex-end;
+}
+#onboardingModal.active { display: flex; }
+.onboarding-sheet {
+  background: var(--bg-card); border-radius: 24px 24px 0 0; width: 100%; padding: 24px 20px 40px;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.ob-title { font-size: 22px; font-weight: 900; color: var(--text-primary); margin-bottom: 4px; }
+.ob-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+
+/* ── GROWTH LOG TABLE ── */
+.growth-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.growth-table th { background: var(--primary-light); color: var(--primary-dark); padding: 8px 10px; text-align: left; font-weight: 700; }
+.growth-table td { padding: 8px 10px; border-bottom: 1px solid var(--gray-200); }
+.growth-table tr:last-child td { border-bottom: none; }
+.growth-table tr:hover td { background: var(--gray-100); }
+
+/* ── SHARE MODAL ── */
+#shareCardModal {
+  position: fixed; inset: 0; z-index: 800; background: rgba(0,0,0,0.75);
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+#shareCardModal.active { display: flex; }
+.share-modal-inner { background: white; border-radius: 20px; padding: 16px; width: 100%; max-width: 400px; }
+.share-actions { display: flex; gap: 10px; margin-top: 12px; }
+
+/* ── UTILITIES ── */
+.px-3 { padding-left: 12px; padding-right: 12px; }
+.py-2 { padding-top: 8px; padding-bottom: 8px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mb-2 { margin-bottom: 8px; }
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.flex-center { display: flex; align-items: center; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.text-sm { font-size: 12px; }
+.text-xs { font-size: 11px; }
+.text-bold { font-weight: 700; }
+.text-muted { color: var(--text-secondary); }
+.text-primary-c { color: var(--primary); }
+.text-danger { color: var(--danger); }
+.text-success { color: var(--success); }
+.text-center { text-align: center; }
+.w-full { width: 100%; }
+.empty-state { text-align: center; padding: 32px 20px; color: var(--text-secondary); }
+.empty-icon { font-size: 48px; margin-bottom: 10px; }
+.empty-text { font-size: 13px; font-weight: 600; }
+.empty-sub { font-size: 12px; margin-top: 4px; }
+.divider { height: 1px; background: var(--gray-200); margin: 8px 0; }
+.hr-label { font-size: 11px; color: var(--text-secondary); text-align: center; margin: 12px 0; position: relative; }
+.hr-label::before, .hr-label::after { content: ''; position: absolute; top: 50%; height: 1px; background: var(--gray-200); width: calc(50% - 40px); }
+.hr-label::before { left: 0; } .hr-label::after { right: 0; }
+
+/* ── DARK TOGGLE ── */
+.dark-toggle { font-size: 18px; background: rgba(255,255,255,0.15); border: none; color: white; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; }
+
+/* ── NOTIFICATION DOT ── */
+.notif-dot { width: 8px; height: 8px; background: var(--danger); border-radius: 50%; position: absolute; top: -2px; right: -2px; }
+
+/* ── ANIMATED ELEMENTS ── */
+.pulse-badge { animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+/* ── OFFLINE BANNER ── */
+#offlineBanner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 8000;
+  background: #E53935; color: white; text-align: center; padding: 10px;
+  font-size: 12px; font-weight: 600; display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+<!-- OFFLINE BANNER -->
+<div id="offlineBanner">📡 Tidak ada koneksi internet — Mode Offline</div>
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-icon">🌱</div>
+  <div class="splash-title">Ortu Pintar</div>
+  <div class="splash-sub">Asisten Tumbuh Kembang Anak Cerdas & Sholeh</div>
+  <div style="font-size:11px;opacity:0.7;margin-top:-8px;">by @dokrifqi</div>
+  <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+</div>
+
+<!-- ONBOARDING MODAL -->
+<div id="onboardingModal">
+  <div class="onboarding-sheet">
+    <div style="text-align:center;font-size:48px;margin-bottom:10px;">🌱</div>
+    <div class="ob-title" style="text-align:center;">Selamat datang di<br>Ortu Pintar!</div>
+    <div class="ob-sub" style="text-align:center;">Atur profil anak Anda terlebih dahulu untuk memulai</div>
+    <div class="form-group">
+      <label class="form-label">Nama Anak</label>
+      <input type="text" class="form-input" id="ob_name" placeholder="Masukkan nama anak">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tanggal Lahir</label>
+      <input type="date" class="form-input" id="ob_dob">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Jenis Kelamin</label>
+      <select class="form-input" id="ob_gender">
+        <option value="">-- Pilih --</option>
+        <option value="L">Laki-laki 👦</option>
+        <option value="P">Perempuan 👧</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Berat Lahir (gram)</label>
+      <input type="number" class="form-input" id="ob_birthweight" placeholder="misal: 3200">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Panjang Lahir (cm)</label>
+      <input type="number" class="form-input" id="ob_birthlength" placeholder="misal: 50">
+    </div>
+    <button class="btn btn-primary btn-full" onclick="saveOnboarding()" style="margin-top:8px;">Mulai 🌱</button>
+  </div>
+</div>
+
+<!-- SHARE CARD MODAL -->
+<div id="shareCardModal">
+  <div class="share-modal-inner">
+    <div class="flex-between mb-2">
+      <span class="text-bold" style="font-size:15px;">📤 Bagikan Kartu Tumbuh Kembang</span>
+      <button onclick="closeShareCard()" style="background:none;border:none;font-size:20px;">✕</button>
+    </div>
+    <canvas id="shareCardCanvas" style="width:100%;border-radius:12px;"></canvas>
+    <div class="share-actions">
+      <button class="btn btn-primary" style="flex:1;" onclick="downloadShareCard()">💾 Simpan</button>
+      <button class="btn btn-success" style="flex:1;" onclick="shareCardWA()">💬 WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: KURVA PERTUMBUHAN     -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-growth">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-growth')">‹</button>
+    <span class="modal-title">📏 Kurva Pertumbuhan</span>
+    <button class="btn btn-sm btn-primary" onclick="openAddGrowth()">+ Catat</button>
+  </div>
+  <div class="modal-body">
+    <!-- Add form (hidden) -->
+    <div id="addGrowthForm" style="display:none; background:var(--primary-light); border-radius:14px; padding:14px; margin-bottom:14px;">
+      <div class="text-bold mb-2" style="font-size:13px; color:var(--primary-dark);">Catat Pertumbuhan Baru</div>
+      <div class="form-group"><label class="form-label">Tanggal Pengukuran</label><input type="date" class="form-input" id="g_date"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group"><label class="form-label">Berat (kg)</label><input type="number" step="0.1" class="form-input" id="g_bb" placeholder="0.0"></div>
+        <div class="form-group"><label class="form-label">Tinggi (cm)</label><input type="number" step="0.1" class="form-input" id="g_tb" placeholder="0.0"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Lingkar Kepala (cm)</label><input type="number" step="0.1" class="form-input" id="g_lk" placeholder="0.0"></div>
+      <div class="form-group"><label class="form-label">Keterangan</label><input type="text" class="form-input" id="g_note" placeholder="misal: kunjungan posyandu"></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-primary" onclick="saveGrowth()" style="flex:1;">Simpan</button>
+        <button class="btn btn-outline" onclick="document.getElementById('addGrowthForm').style.display='none'" style="flex:1;">Batal</button>
+      </div>
+    </div>
+    <!-- Current stats -->
+    <div id="growthStats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;"></div>
+    <!-- Chart -->
+    <div class="card mb-2">
+      <div class="card-pad">
+        <div class="flex-between mb-2">
+          <span class="text-bold">Grafik BB vs Usia</span>
+          <select class="form-input" style="width:auto;padding:4px 8px;font-size:11px;" id="growthChartType" onchange="renderGrowthChart()">
+            <option value="bb">Berat Badan</option>
+            <option value="tb">Tinggi Badan</option>
+            <option value="lk">Lingkar Kepala</option>
+          </select>
+        </div>
+        <canvas id="growthCanvas" height="220"></canvas>
+        <div style="font-size:10px;color:var(--text-secondary);margin-top:6px;text-align:center;">Referensi: WHO Child Growth Standards</div>
+      </div>
+    </div>
+    <!-- Status gizi -->
+    <div class="card mb-2" id="giziCard">
+      <div class="card-pad">
+        <div class="text-bold mb-2">Status Gizi Anak</div>
+        <div id="giziContent"></div>
+      </div>
+    </div>
+    <!-- History table -->
+    <div class="card">
+      <div class="card-pad">
+        <div class="flex-between mb-2">
+          <span class="text-bold">Riwayat Pengukuran</span>
+        </div>
+        <div id="growthHistory"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: VAKSINASI             -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-vaksin">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-vaksin')">‹</button>
+    <span class="modal-title">💉 Jadwal Vaksinasi</span>
+  </div>
+  <div class="modal-body" id="vaksinBody">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: MILESTONE             -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-milestone">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-milestone')">‹</button>
+    <span class="modal-title">🧠 Milestone Perkembangan</span>
+    <select class="form-input" style="width:auto;padding:5px 8px;font-size:11px;margin-left:auto;" id="milestoneAgeSelect" onchange="renderMilestone()">
+      <option value="1">1 bulan</option>
+      <option value="2">2 bulan</option>
+      <option value="3">3 bulan</option>
+      <option value="4">4 bulan</option>
+      <option value="6">6 bulan</option>
+      <option value="9">9 bulan</option>
+      <option value="12" selected>12 bulan</option>
+      <option value="15">15 bulan</option>
+      <option value="18">18 bulan</option>
+      <option value="24">24 bulan</option>
+      <option value="36">36 bulan</option>
+      <option value="48">48 bulan (4 thn)</option>
+    </select>
+  </div>
+  <div class="modal-body" id="milestoneBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: MPASI                 -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-mpasi">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-mpasi')">‹</button>
+    <span class="modal-title">🍼 Panduan MPASI</span>
+  </div>
+  <div class="modal-body" id="mpasiBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: CATATAN SAKIT         -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-sick">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-sick')">‹</button>
+    <span class="modal-title">🩺 Catatan Sakit</span>
+    <button class="btn btn-sm btn-danger" onclick="openAddSick()">+ Catat</button>
+  </div>
+  <div class="modal-body">
+    <div id="addSickForm" style="display:none;background:var(--danger-light);border-radius:14px;padding:14px;margin-bottom:14px;">
+      <div class="text-bold mb-2" style="font-size:13px;color:var(--danger);">Catat Keluhan Baru</div>
+      <div class="form-group"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="s_date"></div>
+      <div class="form-group"><label class="form-label">Keluhan Utama</label><input type="text" class="form-input" id="s_keluhan" placeholder="misal: demam, batuk pilek"></div>
+      <div class="form-group"><label class="form-label">Suhu Badan (°C)</label><input type="number" step="0.1" class="form-input" id="s_suhu" placeholder="misal: 38.5"></div>
+      <div class="form-group"><label class="form-label">Tindakan</label><input type="text" class="form-input" id="s_tindakan" placeholder="misal: kompres, paracetamol 10mg/kgBB"></div>
+      <div class="form-group"><label class="form-label">Catatan Tambahan</label><textarea class="form-input" id="s_note" rows="2" placeholder="gejala lain, kondisi anak..."></textarea></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-danger" onclick="saveSick()" style="flex:1;">Simpan</button>
+        <button class="btn btn-outline" onclick="document.getElementById('addSickForm').style.display='none'" style="flex:1;">Batal</button>
+      </div>
+    </div>
+    <!-- Decision support -->
+    <div class="card mb-2" style="border-left:4px solid var(--danger);">
+      <div class="card-pad">
+        <div class="text-bold text-danger mb-2">🚨 Kapan Harus ke IGD?</div>
+        <ul style="font-size:12px;color:var(--text-primary);line-height:1.8;padding-left:16px;">
+          <li>Demam >39°C pada bayi <3 bulan</li>
+          <li>Kesulitan bernapas / napas cepat</li>
+          <li>Tidak mau minum / menyusui sama sekali</li>
+          <li>Kejang / penurunan kesadaran</li>
+          <li>Ruam kemerahan yang meluas cepat</li>
+          <li>Muntah proyektil berulang</li>
+          <li>Ubun-ubun menonjol (bayi)</li>
+        </ul>
+      </div>
+    </div>
+    <div id="sickList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: POLA TIDUR            -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-sleep">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-sleep')">‹</button>
+    <span class="modal-title">😴 Pola Tidur</span>
+    <button class="btn btn-sm btn-primary" onclick="openAddSleep()">+ Catat</button>
+  </div>
+  <div class="modal-body">
+    <div id="addSleepForm" style="display:none;background:var(--info-light);border-radius:14px;padding:14px;margin-bottom:14px;">
+      <div class="text-bold mb-2" style="font-size:13px;color:var(--info);">Catat Tidur</div>
+      <div class="form-group"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="sl_date"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group"><label class="form-label">Jam Mulai</label><input type="time" class="form-input" id="sl_start"></div>
+        <div class="form-group"><label class="form-label">Jam Selesai</label><input type="time" class="form-input" id="sl_end"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Jenis Tidur</label>
+        <select class="form-input" id="sl_type">
+          <option value="night">Tidur Malam 🌙</option>
+          <option value="nap">Tidur Siang ☀️</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-primary" onclick="saveSleep()" style="flex:1;">Simpan</button>
+        <button class="btn btn-outline" onclick="document.getElementById('addSleepForm').style.display='none'" style="flex:1;">Batal</button>
+      </div>
+    </div>
+    <!-- Sleep recommendation -->
+    <div class="card mb-2">
+      <div class="card-pad">
+        <div class="text-bold mb-2">⏰ Rekomendasi Tidur (AAP)</div>
+        <div id="sleepRecommendation"></div>
+      </div>
+    </div>
+    <!-- Sleep summary -->
+    <div class="card mb-2">
+      <div class="card-pad">
+        <div class="text-bold mb-2">📊 Rata-rata 7 Hari Terakhir</div>
+        <div id="sleepSummary"></div>
+      </div>
+    </div>
+    <div id="sleepList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: JURNAL                -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-jurnal">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-jurnal')">‹</button>
+    <span class="modal-title">📖 Jurnal Tumbuh Kembang</span>
+    <button class="btn btn-sm btn-primary" onclick="openAddJurnal()">+ Catat</button>
+  </div>
+  <div class="modal-body">
+    <div id="addJurnalForm" style="display:none;background:var(--primary-light);border-radius:14px;padding:14px;margin-bottom:14px;">
+      <div class="text-bold mb-2" style="font-size:13px;color:var(--primary-dark);">Tulis Momen Baru</div>
+      <div class="form-group"><label class="form-label">Tanggal</label><input type="date" class="form-input" id="j_date"></div>
+      <div class="form-group"><label class="form-label">Judul Momen</label><input type="text" class="form-input" id="j_title" placeholder="misal: Pertama kali duduk sendiri!"></div>
+      <div class="form-group"><label class="form-label">Cerita</label><textarea class="form-input" id="j_text" rows="3" placeholder="Ceritakan momen istimewa ini..."></textarea></div>
+      <div class="form-group">
+        <label class="form-label">Tag Kategori</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;" id="jurnalTagContainer">
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Motorik')">Motorik</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Bahasa')">Bahasa</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Sosial')">Sosial</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Makan')">Makan</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Tidur')">Tidur</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Lucu')">Lucu 😄</button>
+          <button class="ecat-btn" onclick="toggleJurnalTag(this,'Pertama')">Pertama 🌟</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-primary" onclick="saveJurnal()" style="flex:1;">Simpan</button>
+        <button class="btn btn-outline" onclick="document.getElementById('addJurnalForm').style.display='none'" style="flex:1;">Batal</button>
+      </div>
+    </div>
+    <div id="jurnalList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: PENGINGAT             -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-reminder">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-reminder')">‹</button>
+    <span class="modal-title">🔔 Pengingat</span>
+    <button class="btn btn-sm btn-primary" onclick="openAddReminder()">+ Tambah</button>
+  </div>
+  <div class="modal-body">
+    <div id="addReminderForm" style="display:none;background:var(--warning-light);border-radius:14px;padding:14px;margin-bottom:14px;">
+      <div class="text-bold mb-2" style="font-size:13px;color:var(--warning);">Tambah Pengingat</div>
+      <div class="form-group"><label class="form-label">Judul Pengingat</label><input type="text" class="form-input" id="r_title" placeholder="misal: Vaksin DPT ke-2"></div>
+      <div class="form-group"><label class="form-label">Tanggal & Waktu</label><input type="datetime-local" class="form-input" id="r_datetime"></div>
+      <div class="form-group">
+        <label class="form-label">Kategori</label>
+        <select class="form-input" id="r_cat">
+          <option value="vaksin">💉 Vaksinasi</option>
+          <option value="kontrol">🩺 Kontrol Dokter</option>
+          <option value="vitamin">💊 Vitamin / Obat</option>
+          <option value="mpasi">🍼 MPASI</option>
+          <option value="lain">📋 Lainnya</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Catatan</label><input type="text" class="form-input" id="r_note" placeholder="keterangan tambahan"></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn btn-primary" onclick="saveReminder()" style="flex:1;">Simpan</button>
+        <button class="btn btn-outline" onclick="document.getElementById('addReminderForm').style.display='none'" style="flex:1;">Batal</button>
+      </div>
+    </div>
+    <div id="reminderList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: KPSP SKRINING         -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-kpsp">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-kpsp')">‹</button>
+    <span class="modal-title">🧩 Skrining KPSP</span>
+    <select class="form-input" style="width:auto;padding:5px 8px;font-size:11px;margin-left:auto;" id="kpspAgeSelect" onchange="renderKPSP()">
+      <option value="3">3 bulan</option>
+      <option value="6">6 bulan</option>
+      <option value="9">9 bulan</option>
+      <option value="12" selected>12 bulan</option>
+      <option value="15">15 bulan</option>
+      <option value="18">18 bulan</option>
+      <option value="24">24 bulan</option>
+      <option value="36">36 bulan</option>
+    </select>
+  </div>
+  <div class="modal-body" id="kpspBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MODAL: VITAMIN & SUPLEMEN    -->
+<!-- ══════════════════════════════════════ -->
+<div class="feature-modal" id="modal-vitamin">
+  <div class="modal-topbar">
+    <button class="modal-back" onclick="closeModal('modal-vitamin')">‹</button>
+    <span class="modal-title">💊 Vitamin & Suplemen</span>
+  </div>
+  <div class="modal-body" id="vitaminBody"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!--          MAIN APP                     -->
+<!-- ══════════════════════════════════════ -->
+
+<!-- APP HEADER -->
+<div class="app-header">
+  <div class="header-top">
+    <div class="app-logo">
+      <span class="app-logo-icon">🌱</span>
+      <span class="app-logo-text">Ortu Pintar</span>
+    </div>
+    <div class="header-actions">
+      <button class="dark-toggle" onclick="toggleDarkMode()" id="darkToggleBtn" title="Toggle dark mode">🌙</button>
+      <button class="hdr-btn" onclick="generateShareCard()">📤 Bagikan</button>
+    </div>
+  </div>
+  <!-- Child info box -->
+  <div id="headerChildBox">
+    <button class="child-setup-btn" onclick="showOnboarding()">
+      <span style="font-size:28px;">👶</span>
+      <div>
+        <div style="font-weight:700;font-size:14px;">Tambahkan Data Anak</div>
+        <div style="font-size:11px;opacity:0.8;">Ketuk untuk mengisi profil anak Anda</div>
+      </div>
+    </button>
+  </div>
+  <!-- Header stats -->
+  <div class="header-stats" style="margin-top:12px;">
+    <div class="hstat-card">
+      <div class="hstat-val" id="hstat_age">—</div>
+      <div class="hstat-lbl">Usia</div>
+    </div>
+    <div class="hstat-card">
+      <div class="hstat-val" id="hstat_vaksin">—</div>
+      <div class="hstat-lbl">Vaksin ✅</div>
+    </div>
+    <div class="hstat-card">
+      <div class="hstat-val" id="hstat_bday">—</div>
+      <div class="hstat-lbl">Ulang Tahun</div>
+    </div>
+  </div>
+</div>
+
+<!-- SMART INSIGHT -->
+<div class="insight-banner" id="smartInsightBanner">
+  <span class="insight-icon">💡</span>
+  <div>
+    <div class="insight-title">Insight Hari Ini</div>
+    <div class="insight-text" id="smartInsightText">Lengkapi profil anak untuk mendapatkan insight personal.</div>
+  </div>
+</div>
+
+<!-- ══════════ MAIN CONTENT ══════════ -->
+<div class="main-content">
+
+  <!-- ══════════ TAB: BERANDA ══════════ -->
+  <div class="tab-panel active" id="tab-beranda">
+
+    <!-- Quick status cards -->
+    <div class="section-title">📊 Status Terkini</div>
+    <div class="quick-scroll">
+      <div class="quick-item" onclick="openModal('modal-growth')">
+        <div class="qi-label">Berat Badan</div>
+        <div class="qi-val" id="qi_bb">— kg</div>
+        <div class="qi-sub" id="qi_bb_status">Belum ada data</div>
+      </div>
+      <div class="quick-item" onclick="openModal('modal-growth')">
+        <div class="qi-label">Tinggi Badan</div>
+        <div class="qi-val" id="qi_tb">— cm</div>
+        <div class="qi-sub" id="qi_tb_status">Belum ada data</div>
+      </div>
+      <div class="quick-item" onclick="openModal('modal-vaksin')">
+        <div class="qi-label">Vaksin Berikutnya</div>
+        <div class="qi-val" id="qi_vaksin_name" style="font-size:12px;">—</div>
+        <div class="qi-sub" id="qi_vaksin_date">Lihat jadwal</div>
+      </div>
+      <div class="quick-item" onclick="openModal('modal-sleep')">
+        <div class="qi-label">Tidur Semalam</div>
+        <div class="qi-val" id="qi_sleep">— jam</div>
+        <div class="qi-sub" id="qi_sleep_status">Belum dicatat</div>
+      </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="section-title">🧩 Menu Utama</div>
+    <div class="menu-grid">
+      <button class="menu-icon-btn" onclick="openModal('modal-growth')">
+        <span class="m-icon">📏</span>
+        <span class="m-label">Kurva Tumbuh</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-vaksin')">
+        <span class="m-icon">💉</span>
+        <span class="m-label">Vaksinasi</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-milestone')">
+        <span class="m-icon">🧠</span>
+        <span class="m-label">Milestone</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-mpasi')">
+        <span class="m-icon">🍼</span>
+        <span class="m-label">MPASI</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-sick')">
+        <span class="m-icon">🩺</span>
+        <span class="m-label">Catatan Sakit</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-sleep')">
+        <span class="m-icon">😴</span>
+        <span class="m-label">Pola Tidur</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-jurnal')">
+        <span class="m-icon">📖</span>
+        <span class="m-label">Jurnal</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-reminder')">
+        <span class="m-icon">🔔</span>
+        <span class="m-label">Pengingat</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-kpsp')">
+        <span class="m-icon">🧩</span>
+        <span class="m-label">Skrining KPSP</span>
+      </button>
+      <button class="menu-icon-btn" onclick="openModal('modal-vitamin')">
+        <span class="m-icon">💊</span>
+        <span class="m-label">Vitamin</span>
+      </button>
+      <button class="menu-icon-btn" onclick="switchTab('edukasi')">
+        <span class="m-icon">📚</span>
+        <span class="m-label">Edukasi</span>
+      </button>
+      <button class="menu-icon-btn" onclick="switchTab('doa')">
+        <span class="m-icon">🤲</span>
+        <span class="m-label">Doa Anak</span>
+      </button>
+    </div>
+
+    <!-- Upcoming vaksin -->
+    <div class="section-title">💉 Vaksin Mendatang</div>
+    <div class="px-3" id="upcomingVaksinList"></div>
+
+    <!-- Today milestone -->
+    <div class="section-title">🧠 Pencapaian Usia Ini</div>
+    <div class="px-3" id="todayMilestoneList" style="padding-bottom:8px;"></div>
+
+    <!-- Recent journal -->
+    <div class="section-title" style="display:flex;justify-content:space-between;padding-right:14px;">
+      <span>📖 Momen Terbaru</span>
+      <button onclick="openModal('modal-jurnal')" style="background:none;border:none;color:var(--primary);font-size:12px;font-weight:600;">Lihat Semua</button>
+    </div>
+    <div class="px-3 mb-2" id="recentJurnalList"></div>
+
+  </div><!-- end tab-beranda -->
+
+  <!-- ══════════ TAB: EDUKASI ══════════ -->
+  <div class="tab-panel" id="tab-edukasi">
+    <div style="background:linear-gradient(135deg,#004D40,#00695C);padding:20px 16px;color:white;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:4px;">📚 Pusat Edukasi</div>
+      <div style="font-size:12px;opacity:0.85;">Pengetahuan terpercaya untuk orang tua cerdas</div>
+    </div>
+    <div class="edukasi-cat" id="edukasiCat">
+      <button class="ecat-btn active" onclick="filterEdukasi(this,'semua')">Semua</button>
+      <button class="ecat-btn" onclick="filterEdukasi(this,'0-6')">0-6 Bln</button>
+      <button class="ecat-btn" onclick="filterEdukasi(this,'6-12')">6-12 Bln</button>
+      <button class="ecat-btn" onclick="filterEdukasi(this,'1-2thn')">1-2 Thn</button>
+      <button class="ecat-btn" onclick="filterEdukasi(this,'2-5thn')">2-5 Thn</button>
+      <button class="ecat-btn" onclick="filterEdukasi(this,'parenting')">Parenting</button>
+    </div>
+    <div class="px-3" id="edukasiList"></div>
+  </div>
+
+  <!-- ══════════ TAB: DOA ANAK ══════════ -->
+  <div class="tab-panel" id="tab-doa">
+    <div style="background:linear-gradient(135deg,#1B5E20,#2E7D32);padding:20px 16px;color:white;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:4px;">🤲 Doa & Dzikir Anak</div>
+      <div style="font-size:12px;opacity:0.85;">Doa pilihan untuk menemani tumbuh kembang si kecil</div>
+    </div>
+    <div class="px-3 mt-3" id="doaList"></div>
+  </div>
+
+  <!-- ══════════ TAB: PROFIL ══════════ -->
+  <div class="tab-panel" id="tab-profil">
+    <div class="profile-hero">
+      <div class="profile-avatar" id="profileAvatar">👶</div>
+      <div class="profile-name" id="profileName">Nama Anak</div>
+      <div class="profile-age" id="profileAge">Usia belum diatur</div>
+    </div>
+    <div class="px-3 mt-3">
+      <!-- Daftar Semua Anak -->
+      <div class="section-title" style="display:flex;justify-content:space-between;padding-right:14px;">
+        <span>👨‍👩‍👧‍👦 Daftar Anak</span>
+        <button onclick="showOnboarding(\'add\')" class="btn btn-sm btn-primary">+ Tambah Anak</button>
+      </div>
+      <div id="childrenListProfile" class="mb-2"></div>
+
+      <!-- Data Anak Aktif -->
+      <div class="section-title">✏️ Edit Profil Anak Aktif</div>
+      <div class="card mb-2">
+        <div class="card-pad">
+          <div class="form-group"><label class="form-label">Nama Anak</label><input type="text" class="form-input" id="p_name" placeholder="Nama anak"></div>
+          <div class="form-group"><label class="form-label">Tanggal Lahir</label><input type="date" class="form-input" id="p_dob"></div>
+          <div class="form-group"><label class="form-label">Jenis Kelamin</label>
+            <select class="form-input" id="p_gender">
+              <option value="">-- Pilih --</option>
+              <option value="L">Laki-laki 👦</option>
+              <option value="P">Perempuan 👧</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Berat Lahir (gram)</label><input type="number" class="form-input" id="p_birthweight" placeholder="misal: 3200"></div>
+          <div class="form-group"><label class="form-label">Panjang Lahir (cm)</label><input type="number" class="form-input" id="p_birthlength" placeholder="misal: 50"></div>
+          <div class="form-group"><label class="form-label">Nama Ibu</label><input type="text" class="form-input" id="p_mother" placeholder="Nama ibu"></div>
+          <div class="form-group"><label class="form-label">Nama Ayah</label><input type="text" class="form-input" id="p_father" placeholder="Nama ayah"></div>
+          <button class="btn btn-primary btn-full" onclick="saveProfile()">💾 Simpan Profil</button>
+        </div>
+      </div>
+      <!-- Pengaturan -->
+      <div class="section-title">⚙️ Pengaturan</div>
+      <div class="card mb-2">
+        <div class="card-pad">
+          <div class="flex-between py-2" style="border-bottom:1px solid var(--gray-200);">
+            <div>
+              <div class="text-bold text-sm">Mode Gelap</div>
+              <div class="text-xs text-muted">Tampilan ramah mata malam hari</div>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="toggleDarkMode()" id="darkModeBtn">🌙 Aktifkan</button>
+          </div>
+          <div class="flex-between py-2" style="border-bottom:1px solid var(--gray-200);">
+            <div>
+              <div class="text-bold text-sm">Notifikasi</div>
+              <div class="text-xs text-muted">Pengingat vaksin & milestone</div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="requestNotifPermission()">🔔 Aktifkan</button>
+          </div>
+          <div class="flex-between py-2">
+            <div>
+              <div class="text-bold text-sm">Reset Data</div>
+              <div class="text-xs text-muted text-danger">Hapus semua data aplikasi</div>
+            </div>
+            <button class="btn btn-sm btn-danger" onclick="confirmReset()">🗑️ Reset</button>
+          </div>
+        </div>
+      </div>
+      <!-- Credit -->
+      <div class="card mb-2" style="background:var(--primary-light);">
+        <div class="card-pad text-center">
+          <div style="font-size:32px;margin-bottom:8px;">🌱</div>
+          <div class="text-bold" style="color:var(--primary-dark);">Ortu Pintar v1.0</div>
+          <div class="text-xs text-muted mt-2">Dibuat dengan ❤️ oleh<br><strong>dr. Mochamad Rifqie N K</strong></div>
+          <div class="text-xs text-muted mt-2">Referensi: WHO Child Growth Standards, Jadwal Imunisasi IDAI 2023, KPSP Kemenkes RI</div>
+          <div class="text-xs text-muted mt-2">⚕️ Aplikasi ini bersifat edukatif, bukan pengganti konsultasi dokter</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main-content -->
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-tab="beranda" onclick="switchTab('beranda')">
+    <span class="nav-icon">🏠</span>
+    <span>Beranda</span>
+  </button>
+  <button class="nav-item" data-tab="edukasi" onclick="switchTab('edukasi')">
+    <span class="nav-icon">📚</span>
+    <span>Edukasi</span>
+  </button>
+  <button class="nav-item" data-tab="doa" onclick="switchTab('doa')">
+    <span class="nav-icon">🤲</span>
+    <span>Doa Anak</span>
+  </button>
+  <button class="nav-item" data-tab="profil" onclick="switchTab('profil')">
+    <span class="nav-icon">👤</span>
+    <span>Profil</span>
+  </button>
+</nav>
+
+<script>
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+const STATE_KEY = 'ortuPintarState';
+
+// ── Multi-child state structure ──
+// children[]: array of child profiles
+// activeChildId: id of currently active child
+// childData[id]: per-child data (growth, vaksin, milestone, etc.)
+
+let state = {
+  children: [],         // [{id, name, dob, gender, birthWeight, birthLength, mother, father}]
+  activeChildId: null,  // string id of active child
+  childData: {},        // { [childId]: { growth, vaksin, milestone, sick, sleep, jurnal, kpsp } }
+  reminders: [],        // shared reminders (or can be per-child via cat)
+};
+
+// ── Helper: get active child object ──
+function getActiveChild() {
+  if (!state.activeChildId) return null;
+  return state.children.find(c => c.id === state.activeChildId) || null;
+}
+
+// ── Helper: get data for active child ──
+function getChildData() {
+  const id = state.activeChildId;
+  if (!id) return null;
+  if (!state.childData[id]) {
+    state.childData[id] = { growth:[], vaksin:{}, milestone:{}, sick:[], sleep:[], jurnal:[], kpsp:{} };
+  }
+  return state.childData[id];
+}
+
+// ── Helper: generate unique ID ──
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function loadState() {
+  try {
+    const s = localStorage.getItem(STATE_KEY);
+    if (s) {
+      const parsed = JSON.parse(s);
+      // Migrate old single-child format
+      if (parsed.child && parsed.child.dob && (!parsed.children || !parsed.children.length)) {
+        const childId = genId();
+        const childObj = { id: childId, ...parsed.child };
+        parsed.children = [childObj];
+        parsed.activeChildId = childId;
+        parsed.childData = {};
+        parsed.childData[childId] = {
+          growth: parsed.growth || [],
+          vaksin: parsed.vaksin || {},
+          milestone: parsed.milestone || {},
+          sick: parsed.sick || [],
+          sleep: parsed.sleep || [],
+          jurnal: parsed.jurnal || [],
+          kpsp: parsed.kpsp || {},
+        };
+        delete parsed.child; delete parsed.growth; delete parsed.vaksin;
+        delete parsed.milestone; delete parsed.sick; delete parsed.sleep;
+        delete parsed.jurnal; delete parsed.kpsp;
+      }
+      state = { ...state, ...parsed };
+    }
+  } catch(e) { console.warn('loadState error', e); }
+}
+
+function saveState() {
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ══════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════
+function showToast(type, title, msg) {
+  const icons = { success:'✅', danger:'❌', warning:'⚠️', info:'ℹ️' };
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span class="toast-icon">${icons[type]||'💬'}</span><div><div class="toast-title">${title}</div><div class="toast-msg">${msg}</div></div>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ══════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════
+function getAgeFromDob(dob) {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  const now = new Date();
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+  if (days < 0) { months--; }
+  if (months < 0) { years--; months += 12; }
+  return { years, months, days: Math.max(0, days), totalMonths: years * 12 + months };
+}
+
+function formatAge(age) {
+  if (!age) return '—';
+  if (age.years === 0) return `${age.months} bln ${Math.abs(age.days)} hr`;
+  return `${age.years} thn ${age.months} bln`;
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function today() { return new Date().toISOString().split('T')[0]; }
+
+// ══════════════════════════════════════
+// SPLASH
+// ══════════════════════════════════════
+function initSplash() {
+  setTimeout(() => {
+    document.getElementById('splashScreen').style.opacity = '0';
+    document.getElementById('splashScreen').style.transition = 'opacity 0.5s';
+    setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 500);
+  }, 2000);
+}
+
+// ══════════════════════════════════════
+// DARK MODE
+// ══════════════════════════════════════
+function initDarkMode() {
+  if (localStorage.getItem('ortiDark') === '1') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('darkToggleBtn').textContent = '☀️';
+    document.getElementById('darkModeBtn').textContent = '☀️ Nonaktifkan';
+  }
+}
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const on = document.body.classList.contains('dark-mode');
+  localStorage.setItem('ortiDark', on ? '1' : '0');
+  document.getElementById('darkToggleBtn').textContent = on ? '☀️' : '🌙';
+  document.getElementById('darkModeBtn').textContent = on ? '☀️ Nonaktifkan' : '🌙 Aktifkan';
+}
+
+// ══════════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.classList.add('active');
+  const navBtn = document.querySelector(`[data-tab="${tab}"]`);
+  if (navBtn) navBtn.classList.add('active');
+  if (tab === 'profil') loadProfileForm();
+  if (tab === 'edukasi') renderEdukasi();
+  if (tab === 'doa') renderDoa();
+}
+
+// ══════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+  if (id === 'modal-vaksin') renderVaksin();
+  if (id === 'modal-milestone') renderMilestone();
+  if (id === 'modal-mpasi') renderMPASI();
+  if (id === 'modal-sick') renderSickList();
+  if (id === 'modal-sleep') { renderSleepList(); renderSleepSummary(); renderSleepRecommendation(); }
+  if (id === 'modal-jurnal') renderJurnalList();
+  if (id === 'modal-reminder') renderReminderList();
+  if (id === 'modal-kpsp') renderKPSP();
+  if (id === 'modal-vitamin') renderVitamin();
+  if (id === 'modal-growth') { renderGrowthStats(); renderGrowthChart(); renderGrowthHistory(); renderGiziCard(); }
+}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ══════════════════════════════════════
+// ONBOARDING
+// ══════════════════════════════════════
+// ── Onboarding mode: 'new' = first child, 'add' = add sibling, 'edit' = edit existing ──
+let onboardingMode = 'new';
+let onboardingEditId = null;
+
+function showOnboarding(mode, editId) {
+  onboardingMode = mode || 'new';
+  onboardingEditId = editId || null;
+  const modal = document.getElementById('onboardingModal');
+  // Reset form
+  document.getElementById('ob_name').value = '';
+  document.getElementById('ob_dob').value = '';
+  document.getElementById('ob_gender').value = '';
+  document.getElementById('ob_birthweight').value = '';
+  document.getElementById('ob_birthlength').value = '';
+  if (onboardingMode === 'edit' && editId) {
+    const child = state.children.find(c => c.id === editId);
+    if (child) {
+      document.getElementById('ob_name').value = child.name || '';
+      document.getElementById('ob_dob').value = child.dob || '';
+      document.getElementById('ob_gender').value = child.gender || '';
+      document.getElementById('ob_birthweight').value = child.birthWeight || '';
+      document.getElementById('ob_birthlength').value = child.birthLength || '';
+    }
+  }
+  const title = onboardingMode === 'add' ? 'Tambah Anak Baru' : onboardingMode === 'edit' ? 'Edit Profil Anak' : 'Selamat datang di Ortu Pintar!';
+  const sub = onboardingMode === 'new' ? 'Atur profil anak Anda terlebih dahulu untuk memulai' : 'Lengkapi data anak';
+  document.querySelector('.ob-title').innerHTML = title;
+  document.querySelector('.ob-sub').textContent = sub;
+  modal.classList.add('active');
+}
+
+function showOnboardingIfNeeded() {
+  if (!state.children || state.children.length === 0) showOnboarding('new');
+}
+
+function saveOnboarding() {
+  const name = document.getElementById('ob_name').value.trim();
+  const dob = document.getElementById('ob_dob').value;
+  const gender = document.getElementById('ob_gender').value;
+  const bw = parseFloat(document.getElementById('ob_birthweight').value) || 0;
+  const bl = parseFloat(document.getElementById('ob_birthlength').value) || 0;
+  if (!name || !dob) { showToast('warning','Lengkapi data','Nama dan tanggal lahir wajib diisi'); return; }
+
+  if (onboardingMode === 'edit' && onboardingEditId) {
+    // Update existing child
+    const idx = state.children.findIndex(c => c.id === onboardingEditId);
+    if (idx >= 0) {
+      state.children[idx] = { ...state.children[idx], name, dob, gender, birthWeight: bw, birthLength: bl };
+    }
+    showToast('success','Profil diperbarui!', name + ' berhasil diupdate 🌱');
+  } else {
+    // Add new child
+    const childId = genId();
+    const childObj = { id: childId, name, dob, gender, birthWeight: bw, birthLength: bl, mother:'', father:'' };
+    state.children.push(childObj);
+    state.activeChildId = childId;
+    if (!state.childData[childId]) {
+      state.childData[childId] = { growth:[], vaksin:{}, milestone:{}, sick:[], sleep:[], jurnal:[], kpsp:{} };
+    }
+    showToast('success', onboardingMode==='add' ? 'Anak ditambahkan!' : 'Profil tersimpan!', 'Selamat datang, ' + name + '! 🌱');
+  }
+
+  saveState();
+  document.getElementById('onboardingModal').classList.remove('active');
+  refreshAllUI();
+}
+
+// ── Switch active child ──
+function switchChild(childId) {
+  state.activeChildId = childId;
+  saveState();
+  refreshAllUI();
+  showToast('info','Beralih anak','Menampilkan data ' + (getActiveChild()||{name:''}).name);
+}
+
+// ── Delete a child ──
+function deleteChild(childId) {
+  const child = state.children.find(c => c.id === childId);
+  if (!child) return;
+  if (!confirm('Hapus data ' + child.name + '? Semua data akan dihapus permanen.')) return;
+  state.children = state.children.filter(c => c.id !== childId);
+  delete state.childData[childId];
+  if (state.activeChildId === childId) {
+    state.activeChildId = state.children.length > 0 ? state.children[0].id : null;
+  }
+  saveState();
+  refreshAllUI();
+  showToast('success','Dihapus','Data anak berhasil dihapus.');
+}
+
+// ── Refresh all UI after child switch or data change ──
+function refreshAllUI() {
+  updateHeader();
+  updateHeaderStats();
+  updateSmartInsight();
+  renderUpcomingVaksin();
+  renderTodayMilestone();
+  renderRecentJurnal();
+}
+
+// ══════════════════════════════════════
+// HEADER
+// ══════════════════════════════════════
+function updateHeader() {
+  const box = document.getElementById('headerChildBox');
+  const children = state.children || [];
+
+  if (children.length === 0) {
+    box.innerHTML = '<button class="child-setup-btn" onclick="showOnboarding(\'new\')">' +
+      '<span style="font-size:28px;">👶</span>' +
+      '<div><div style="font-weight:700;font-size:14px;">Tambahkan Data Anak</div>' +
+      '<div style="font-size:11px;opacity:0.8;">Ketuk untuk mengisi profil anak Anda</div></div>' +
+      '</button>';
+    return;
+  }
+
+  const activeChild = getActiveChild();
+  if (!activeChild) return;
+  const age = getAgeFromDob(activeChild.dob);
+  const emoji = activeChild.gender === 'P' ? '👧' : '👦';
+  const genderLabel = activeChild.gender === 'P' ? 'Perempuan' : activeChild.gender === 'L' ? 'Laki-laki' : '';
+
+  // Build child switcher tabs if more than 1 child
+  var tabsHtml = '';
+  if (children.length > 1) {
+    tabsHtml = '<div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;">';
+    children.forEach(function(ch) {
+      var isActive = ch.id === state.activeChildId;
+      var chEmoji = ch.gender === 'P' ? '👧' : '👦';
+      var chAge = getAgeFromDob(ch.dob);
+      tabsHtml += '<button onclick="switchChild(\'' + ch.id + '\')" style="' +
+        'flex-shrink:0;display:flex;align-items:center;gap:6px;' +
+        'background:' + (isActive ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)') + ';' +
+        'border:' + (isActive ? '2px solid rgba(255,255,255,0.6)' : '1.5px solid rgba(255,255,255,0.2)') + ';' +
+        'border-radius:20px;padding:5px 12px;color:white;font-size:12px;font-weight:' + (isActive?'700':'500') + ';' +
+        'white-space:nowrap;">' +
+        chEmoji + ' ' + ch.name +
+        (chAge ? ' <span style="font-size:10px;opacity:0.8;">(' + formatAge(chAge) + ')</span>' : '') +
+        '</button>';
+    });
+    tabsHtml += '<button onclick="showOnboarding(\'add\')" style="flex-shrink:0;background:rgba(255,255,255,0.1);border:1.5px dashed rgba(255,255,255,0.4);border-radius:20px;padding:5px 12px;color:white;font-size:12px;">+ Anak</button>';
+    tabsHtml += '</div>';
+  }
+
+  box.innerHTML = tabsHtml +
+    '<div class="child-info-box" onclick="switchTab(\'profil\')">' +
+      '<div class="child-avatar">' + emoji + '</div>' +
+      '<div style="flex:1;">' +
+        '<div class="child-name">' + activeChild.name + '</div>' +
+        '<div class="child-age">' + formatAge(age) + (genderLabel ? ' • ' + genderLabel : '') + '</div>' +
+      '</div>' +
+      (children.length === 1 ? '<button onclick="event.stopPropagation();showOnboarding(\'add\')" style="background:rgba(255,255,255,0.2);border:1.5px dashed rgba(255,255,255,0.5);border-radius:10px;padding:4px 10px;color:white;font-size:10px;font-weight:600;">+ Anak</button>' : '') +
+    '</div>';
+}
+
+function updateHeaderStats() {
+  const c = getActiveChild();
+  const cd = getChildData();
+  const age = (c && c.dob) ? getAgeFromDob(c.dob) : null;
+  document.getElementById('hstat_age').textContent = age ? formatAge(age) : '—';
+  // Vaksin done count
+  var vaksinData = cd ? cd.vaksin : {};
+  var done = Object.values(vaksinData).filter(function(v){ return v && v.done; }).length;
+  document.getElementById('hstat_vaksin').textContent = done + '/' + VAKSIN_DATA.length;
+  // Ulang tahun
+  if (c && c.dob) {
+    var birth = new Date(c.dob);
+    var now = new Date();
+    var nextBday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
+    if (nextBday < now) nextBday.setFullYear(now.getFullYear() + 1);
+    var diff = Math.ceil((nextBday - now) / 86400000);
+    document.getElementById('hstat_bday').textContent = diff === 0 ? '🎉 Hari Ini!' : diff + ' hari';
+  } else {
+    document.getElementById('hstat_bday').textContent = '—';
+  }
+  // Quick items - growth
+  var growth = cd ? cd.growth : [];
+  var latest = growth.length ? growth[growth.length - 1] : null;
+  if (latest) {
+    document.getElementById('qi_bb').textContent = latest.bb ? latest.bb + ' kg' : '— kg';
+    document.getElementById('qi_tb').textContent = latest.tb ? latest.tb + ' cm' : '— cm';
+    document.getElementById('qi_bb_status').textContent = fmtDate(latest.date);
+    document.getElementById('qi_tb_status').textContent = fmtDate(latest.date);
+  } else {
+    document.getElementById('qi_bb').textContent = '— kg';
+    document.getElementById('qi_tb').textContent = '— cm';
+    document.getElementById('qi_bb_status').textContent = 'Belum ada data';
+    document.getElementById('qi_tb_status').textContent = 'Belum ada data';
+  }
+  // Next vaksin
+  var next = getNextVaksin();
+  if (next) {
+    document.getElementById('qi_vaksin_name').textContent = next.name;
+    document.getElementById('qi_vaksin_date').textContent = 'Segera';
+  } else {
+    document.getElementById('qi_vaksin_name').textContent = '✅ Lengkap';
+    document.getElementById('qi_vaksin_date').textContent = 'Semua vaksin dicatat';
+  }
+  // Sleep
+  var sleepData = cd ? cd.sleep : [];
+  var lastSleep = sleepData.length ? sleepData[sleepData.length - 1] : null;
+  if (lastSleep) {
+    var dur = calcSleepDur(lastSleep.start, lastSleep.end);
+    document.getElementById('qi_sleep').textContent = dur + ' jam';
+    document.getElementById('qi_sleep_status').textContent = fmtDate(lastSleep.date);
+  } else {
+    document.getElementById('qi_sleep').textContent = '— jam';
+    document.getElementById('qi_sleep_status').textContent = 'Belum dicatat';
+  }
+}
+
+function calcSleepDur(start, end) {
+  if (!start || !end) return 0;
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  let mins = (eh * 60 + em) - (sh * 60 + sm);
+  if (mins < 0) mins += 24 * 60;
+  return (mins / 60).toFixed(1);
+}
+
+// ══════════════════════════════════════
+// SMART INSIGHT
+// ══════════════════════════════════════
+const INSIGHTS = [
+  { title:'💉 Vaksinasi Penting', text:'Vaksinasi melindungi anak dari penyakit berbahaya. Pastikan jadwal vaksin anak Anda selalu up-to-date sesuai rekomendasi IDAI.' },
+  { title:'🧠 Stimulasi Kognitif', text:'Bermain bersama anak 30 menit setiap hari meningkatkan perkembangan otak secara signifikan. Gunakan mainan edukatif sesuai usia.' },
+  { title:'😴 Tidur Cukup', text:'Bayi usia 0-3 bulan butuh 14-17 jam tidur per hari. Kurang tidur menghambat pertumbuhan karena growth hormone dilepaskan saat tidur.' },
+  { title:'🍼 MPASI yang Tepat', text:'Mulai MPASI di usia 6 bulan dengan tekstur halus. Kenalkan satu bahan makanan baru setiap 3-5 hari untuk mendeteksi alergi.' },
+  { title:'📏 Pantau Tumbuh Kembang', text:'Ukur berat dan tinggi badan anak setiap bulan. Pertumbuhan yang konsisten sesuai kurva WHO adalah tanda anak sehat.' },
+  { title:'❤️ Kelekatan (Bonding)', text:'Skin-to-skin contact dan kontak mata saat menyusui memperkuat bonding dan mendukung perkembangan emosional bayi.' },
+  { title:'🎵 Musik & Bahasa', text:'Bernyanyi lagu anak dan membacakan buku sejak dini merangsang perkembangan bahasa dan kecerdasan verbal si kecil.' },
+  { title:'🌞 Vitamin D', text:'Paparan sinar matahari pagi (sebelum jam 9) selama 15-30 menit membantu produksi vitamin D untuk tulang dan imunitas anak.' },
+  { title:'🦷 Kesehatan Gigi', text:'Mulai sikat gigi saat gigi pertama tumbuh. Hindari memberi anak minuman manis sebelum tidur untuk cegah karies.' },
+  { title:'🤝 Perkembangan Sosial', text:'Bermain bersama anak lain sejak usia 18 bulan membantu mengembangkan kemampuan berbagi, empati, dan kerjasama.' },
+];
+
+function updateSmartInsight() {
+  const c = getActiveChild();
+  if (!c || !c.dob) return;
+  const age = getAgeFromDob(c.dob);
+  const idx = (new Date().getDate() + age.totalMonths) % INSIGHTS.length;
+  const ins = INSIGHTS[idx];
+  document.querySelector('.insight-title').textContent = ins.title;
+  document.getElementById('smartInsightText').textContent = ins.text;
+}
+
+// ══════════════════════════════════════
+// VAKSINASI DATA (IDAI 2023)
+// ══════════════════════════════════════
+const VAKSIN_DATA = [
+  { id:'hb0', name:'Hepatitis B (HB-0)', group:'Lahir', ageMonths:0, desc:'Diberikan dalam 12 jam setelah lahir' },
+  { id:'bcg', name:'BCG', group:'Lahir', ageMonths:0, desc:'Diberikan saat lahir / sebelum 1 bulan' },
+  { id:'polio0', name:'Polio Oral (OPV-0)', group:'Lahir', ageMonths:0, desc:'Diberikan saat lahir' },
+  { id:'dpt1', name:'DPT-HB-Hib (1)', group:'2 Bulan', ageMonths:2, desc:'Perlindungan difteri, pertusis, tetanus, hepatitis B, dan Hib' },
+  { id:'polio1', name:'Polio (OPV/IPV-1)', group:'2 Bulan', ageMonths:2, desc:'Diberikan bersamaan DPT ke-1' },
+  { id:'pcv1', name:'PCV (1)', group:'2 Bulan', ageMonths:2, desc:'Perlindungan pneumokokus' },
+  { id:'rota1', name:'Rotavirus (1)', group:'2 Bulan', ageMonths:2, desc:'Pencegahan diare berat rotavirus' },
+  { id:'dpt2', name:'DPT-HB-Hib (2)', group:'3-4 Bulan', ageMonths:3, desc:'Dosis ke-2, interval 1-2 bulan dari dosis-1' },
+  { id:'polio2', name:'Polio (OPV/IPV-2)', group:'3-4 Bulan', ageMonths:3, desc:'Dosis ke-2' },
+  { id:'pcv2', name:'PCV (2)', group:'4 Bulan', ageMonths:4, desc:'Dosis ke-2' },
+  { id:'rota2', name:'Rotavirus (2)', group:'4 Bulan', ageMonths:4, desc:'Dosis ke-2' },
+  { id:'dpt3', name:'DPT-HB-Hib (3)', group:'4 Bulan', ageMonths:4, desc:'Dosis ke-3' },
+  { id:'polio3', name:'Polio (IPV-3)', group:'4 Bulan', ageMonths:4, desc:'Dosis ke-3' },
+  { id:'pcv3', name:'PCV (3)', group:'6 Bulan', ageMonths:6, desc:'Dosis ke-3' },
+  { id:'influenza1', name:'Influenza (1)', group:'6 Bulan', ageMonths:6, desc:'Diulang setiap tahun' },
+  { id:'mr1', name:'MR (Campak-Rubela)', group:'9 Bulan', ageMonths:9, desc:'Dosis pertama' },
+  { id:'japenc1', name:'Japanese Encephalitis', group:'9 Bulan', ageMonths:9, desc:'Untuk daerah endemik' },
+  { id:'mr2', name:'MR/MMR (2)', group:'15 Bulan', ageMonths:15, desc:'Dosis booster campak-rubela' },
+  { id:'dpt4', name:'DPT-HB-Hib Booster', group:'18 Bulan', ageMonths:18, desc:'Booster dosis ke-4' },
+  { id:'hep_a1', name:'Hepatitis A (1)', group:'18-24 Bulan', ageMonths:18, desc:'Dua dosis, interval 6-12 bulan' },
+  { id:'varisela', name:'Varisela (Cacar Air)', group:'12-18 Bulan', ageMonths:12, desc:'Satu dosis, booster di atas 13 tahun' },
+  { id:'polio4', name:'Polio Booster (OPV)', group:'18 Bulan', ageMonths:18, desc:'Booster OPV/IPV' },
+  { id:'tifoid1', name:'Tifoid Konjugat (1)', group:'24 Bulan', ageMonths:24, desc:'Diulang setiap 3 tahun' },
+  { id:'hep_a2', name:'Hepatitis A (2)', group:'24 Bulan', ageMonths:24, desc:'Dosis ke-2' },
+];
+
+function getNextVaksin() {
+  const c = getActiveChild();
+  const cd = getChildData();
+  if (!c || !c.dob || !cd) return null;
+  const age = getAgeFromDob(c.dob);
+  const vaksin = cd.vaksin || {};
+  const pending = VAKSIN_DATA.filter(function(v){ return !(vaksin[v.id] && vaksin[v.id].done) && v.ageMonths <= age.totalMonths + 2; });
+  if (!pending.length) return null;
+  return pending.sort(function(a,b){ return a.ageMonths - b.ageMonths; })[0];
+}
+
+function renderVaksin() {
+  const c = getActiveChild();
+  const cd = getChildData();
+  if (!cd) { document.getElementById('vaksinBody').innerHTML = '<div class="empty-state"><div class="empty-icon">👶</div><div class="empty-text">Pilih anak terlebih dahulu</div></div>'; return; }
+  const age = (c && c.dob) ? getAgeFromDob(c.dob) : null;
+  const body = document.getElementById('vaksinBody');
+  // Group by group name
+  const groups = {};
+  VAKSIN_DATA.forEach(v => { if (!groups[v.group]) groups[v.group] = []; groups[v.group].push(v); });
+  let html = '';
+  // Summary
+  var vaksinState = cd.vaksin || {};
+  const doneCount = VAKSIN_DATA.filter(function(v){ return vaksinState[v.id] && vaksinState[v.id].done; }).length;
+  const pct = Math.round(doneCount / VAKSIN_DATA.length * 100);
+  html += '<div class="card mb-2"><div class="card-pad">' +
+    '<div class="flex-between mb-2"><span class="text-bold">Progress Vaksinasi</span>' +
+    '<span class="badge badge-primary">' + doneCount + '/' + VAKSIN_DATA.length + ' selesai</span></div>' +
+    '<div class="progress-wrap"><div class="progress-bar progress-teal" style="width:' + pct + '%"></div></div>' +
+    '<div class="text-xs text-muted mt-2 text-center">' + pct + '% vaksinasi selesai • Sumber: IDAI 2023</div>' +
+    '</div></div>';
+  // Kartu vaksin digital
+  var childNameV = c ? (c.name||'—') : '—';
+  var childDobV = c ? fmtDate(c.dob) : '—';
+  html += '<div class="card mb-2" style="background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:white;"><div class="card-pad">' +
+    '<div class="text-bold mb-1">Kartu Imunisasi Digital</div>' +
+    '<div class="text-xs" style="opacity:0.85;">Nama: ' + childNameV + ' • Lahir: ' + childDobV + '</div>' +
+    '<button class="btn btn-sm" style="background:rgba(255,255,255,0.25);color:white;border:1px solid rgba(255,255,255,0.4);margin-top:10px;" onclick="shareVaksinCard()">Bagikan ke Dokter</button>' +
+    '</div></div>';
+  Object.entries(groups).forEach(function(entry) {
+    var grp = entry[0]; var items = entry[1];
+    html += '<div class="vaksin-group-title">📅 ' + grp + '</div>';
+    items.forEach(function(v) {
+      var done = vaksinState[v.id] && vaksinState[v.id].done;
+      var doneDate = vaksinState[v.id] ? vaksinState[v.id].date : null;
+      var overdue = age && !done && v.ageMonths <= age.totalMonths;
+      var soon = age && !done && v.ageMonths > age.totalMonths && v.ageMonths <= age.totalMonths + 1;
+      var statusClass = done ? 'vs-done' : (overdue ? '' : (soon ? 'vs-soon' : 'vs-pending'));
+      var statusIcon = done ? '✅' : (overdue ? '⚠️' : (soon ? '⏰' : '⬜'));
+      var statusLabel = done ? 'Selesai' : (overdue ? 'Lewat' : (soon ? 'Segera' : ''));
+      var labelClass = done ? 'text-success' : (overdue ? 'text-danger' : (soon ? 'text-bold' : ''));
+      var doneDateHtml = doneDate ? '<div style="font-size:10px;color:var(--success);margin-top:2px;">✅ ' + fmtDate(doneDate) + '</div>' : '';
+      var overdueHtml = (overdue && !done) ? '<div style="font-size:10px;color:var(--danger);margin-top:2px;">⚠️ Sudah terlewat - segera konsultasi dokter</div>' : '';
+      html += '<div class="vaksin-item" onclick="toggleVaksin(\'' + v.id + '\')">' +
+        '<div class="vaksin-status ' + statusClass + '">' + statusIcon + '</div>' +
+        '<div style="flex:1;">' +
+          '<div class="vaksin-name">' + v.name + '</div>' +
+          '<div class="vaksin-desc">' + v.desc + '</div>' +
+          doneDateHtml + overdueHtml +
+        '</div>' +
+        '<span class="vaksin-date ' + labelClass + '">' + statusLabel + '</span>' +
+      '</div>';
+    });
+  });
+  body.innerHTML = html;
+}
+
+function toggleVaksin(id) {
+  var cd = getChildData();
+  if (!cd) return;
+  if (!cd.vaksin[id]) cd.vaksin[id] = {};
+  cd.vaksin[id].done = !cd.vaksin[id].done;
+  if (cd.vaksin[id].done) cd.vaksin[id].date = today();
+  else delete cd.vaksin[id].date;
+  saveState();
+  renderVaksin();
+  updateHeaderStats();
+  var isDone = cd.vaksin[id].done;
+  showToast(isDone?'success':'info', isDone?'Vaksin dicatat!':'Dibatalkan', isDone?'Bagus! Catat tanggal di buku KIA ya':'Status vaksin dibatalkan.');
+}
+
+function shareVaksinCard() {
+  var c = getActiveChild();
+  var cd = getChildData();
+  if (!c || !cd) return;
+  var vaksinState = cd.vaksin || {};
+  var done = VAKSIN_DATA.filter(function(v){ return vaksinState[v.id] && vaksinState[v.id].done; })
+    .map(function(v){ return '✅ ' + v.name + ' (' + (fmtDate(vaksinState[v.id].date)||'—') + ')'; }).join('\n');
+  var txt = 'Kartu Imunisasi Digital\n' + (c.name||'—') + ' • Lahir: ' + fmtDate(c.dob) + '\n\n' + (done||'Belum ada vaksin dicatat') + '\n\nDipantau via Ortu Pintar';
+  if (navigator.share) navigator.share({ text: txt }).catch(function(){});
+  else { if(navigator.clipboard) navigator.clipboard.writeText(txt); showToast('success','Disalin!','Kartu imunisasi berhasil disalin.'); }
+}
+
+// ══════════════════════════════════════
+// MILESTONE DATA
+// ══════════════════════════════════════
+const MILESTONE_DATA = {
+  // ── 1 BULAN ──────────────────────────────
+  1: {
+    motorik_kasar: [
+      'Mengangkat kepala sebentar saat tengkurap (tummy time)',
+      'Menggerakkan kepala ke kiri dan kanan saat telentang',
+      'Refleks menggenggam saat telapak disentuh (palmar grasp)',
+      'Refleks Moro (terkejut) saat suara keras',
+      'Kaki bergerak bergantian seperti mengayuh (refleks stepping)',
+    ],
+    motorik_halus: [
+      'Tangan mengepal erat (fisiologis)',
+      'Refleks menghisap kuat saat bibir disentuh',
+      'Memutar kepala ke arah sumber suara dekat',
+      'Mengikuti wajah / objek besar dengan mata ±45°',
+    ],
+    bahasa: [
+      'Menangis sebagai satu-satunya bentuk komunikasi',
+      'Mengeluarkan suara tenggorokan kecil (cooing awal)',
+      'Berhenti menangis saat mendengar suara familiar orang tua',
+      'Merespons suara keras dengan terkejut atau menangis',
+    ],
+    kognitif: [
+      'Lebih menyukai wajah manusia dibanding benda lain',
+      'Dapat fokus pada objek berjarak ±20-30 cm',
+      'Merespons cahaya terang dengan menutup mata',
+      'Mulai membedakan suara ibu dari suara asing',
+    ],
+    sosial: [
+      'Tatap mata singkat dengan pengasuh saat menyusui',
+      'Tenang saat digendong dan diayun',
+      'Merespons sentuhan lembut dengan rileks',
+      'Mulai mengenali bau dan suara ibu',
+    ],
+    redflags: [
+      'Tidak bereaksi terhadap suara keras',
+      'Tidak mengikuti wajah atau cahaya dengan mata',
+      'Otot sangat kaku atau sangat lemas (floppy)',
+      'Tidak mau menyusu / menghisap sama sekali',
+    ]
+  },
+  // ── 2 BULAN ──────────────────────────────
+  2: {
+    motorik_kasar: [
+      'Mengangkat kepala 45° saat tengkurap',
+      'Kepala lebih stabil saat didudukkan dengan ditopang',
+      'Menendang-nendang kaki saat telentang aktif',
+      'Menggerakkan lengan secara simetris',
+    ],
+    motorik_halus: [
+      'Tangan mulai membuka lebih sering (tidak selalu mengepal)',
+      'Meraih objek yang didekatkan meski belum akurat',
+      'Mengamati tangan sendiri',
+      'Menggenggam jari pengasuh yang diletakkan di telapak',
+    ],
+    bahasa: [
+      'Mengeluarkan suara vokal "ooh", "aah" (cooing)',
+      'Tersenyum sosial pertama — senyum sebagai respons senyum',
+      'Menangis berbeda untuk lapar, tidak nyaman, mengantuk',
+      'Berhenti bergerak saat mendengar suara baru',
+    ],
+    kognitif: [
+      'Mengikuti objek bergerak dengan mata 180°',
+      'Mengenali wajah dan suara familiar (ibu/ayah)',
+      'Mulai menunjukkan tanda bosan terhadap stimulus berulang',
+      'Memperhatikan benda berwarna kontras (hitam-putih)',
+    ],
+    sosial: [
+      'Tersenyum balasan saat diajak berinteraksi',
+      'Tatap mata lebih lama dan bermakna',
+      'Senang diajak bicara — bergerak aktif merespons',
+      'Mulai menunjukkan ekspresi kesenangan dan ketidaknyamanan yang jelas',
+    ],
+    redflags: [
+      'Belum ada senyum sosial sama sekali',
+      'Tidak mengikuti wajah/objek dengan mata',
+      'Tidak bersuara (cooing) sama sekali',
+      'Kepala selalu jatuh ke satu sisi saja',
+    ]
+  },
+  // ── 3 BULAN ──────────────────────────────
+  3: {
+    motorik_kasar: [
+      'Mengangkat kepala dan dada saat tengkurap (45-90°)',
+      'Menahan kepala sebentar tanpa dukungan saat didudukkan',
+      'Menggerakkan lengan ke arah objek yang menarik perhatian',
+      'Berguling dari posisi miring ke telentang',
+      'Menendang dengan lebih kuat dan terkoordinasi',
+    ],
+    motorik_halus: [
+      'Membuka tangan dan mengamati jari-jari sendiri',
+      'Meraih dan menyentuh mainan gantung (mobile)',
+      'Menyatukan kedua tangan di garis tengah tubuh',
+      'Memasukkan tangan ke mulut dengan sengaja',
+    ],
+    bahasa: [
+      'Berceloteh aktif — variasi suara vokal dan konsonan awal',
+      'Tertawa keras (laughing) untuk pertama kali',
+      'Bersuara ketika diajak bicara — "percakapan" bergantian',
+      'Bereaksi berbeda terhadap suara senang vs marah orang tua',
+    ],
+    kognitif: [
+      'Memperhatikan tangan sendiri (hand regard)',
+      'Mengikuti objek bergerak dengan kepala dan mata bersama',
+      'Mengenali botol susu / payudara sebelum dimasukkan ke mulut',
+      'Menunjukkan antisipasi — merasa senang saat melihat pengasuh mendekat',
+    ],
+    sosial: [
+      'Tersenyum spontan dan aktif kepada orang yang dikenal',
+      'Tertawa saat digelitik atau diajak bermain',
+      'Mulai membedakan pengasuh utama dengan orang asing',
+      'Menikmati interaksi muka ke muka (face-to-face play)',
+    ],
+    redflags: [
+      'Tidak dapat mengangkat kepala saat tengkurap',
+      'Tidak tersenyum kepada orang lain',
+      'Tidak mengikuti objek bergerak dengan mata',
+      'Tidak bersuara sama sekali',
+    ]
+  },
+  // ── 4 BULAN ──────────────────────────────
+  4: {
+    motorik_kasar: [
+      'Mengangkat kepala 90° dan menopang dengan lengan saat tengkurap',
+      'Mulai berguling dari tengkurap ke telentang',
+      'Duduk dengan ditopang — kepala stabil',
+      'Menahan berat badan di kaki saat digendong berdiri',
+      'Mendorong dengan kaki saat telapak menyentuh permukaan',
+    ],
+    motorik_halus: [
+      'Meraih objek dengan dua tangan secara akurat',
+      'Memegang dan menggoyang mainan kerincing',
+      'Membawa objek ke mulut dengan tangan',
+      'Memindahkan benda dari tangan ke tangan belum bisa, tapi sudah mencoba',
+    ],
+    bahasa: [
+      'Babbling dengan variasi suara "ma", "ba", "da"',
+      'Tertawa keras dan lama saat geli atau senang',
+      'Berteriak gembira saat bermain',
+      'Merespons nada bicara — sedih/senang/marah',
+    ],
+    kognitif: [
+      'Meraih benda yang terlihat dengan sengaja',
+      'Menolehkan kepala ke arah suara',
+      'Menunjukkan minat pada gambar buku warna cerah',
+      'Mulai membedakan benda yang familiar vs asing',
+    ],
+    sosial: [
+      'Tersenyum kepada semua orang dengan bebas',
+      'Senang bermain dan menolak berhenti (protes saat mainan diambil)',
+      'Memperhatikan ekspresi wajah orang lain dengan seksama',
+      'Menunjukkan kegembiraan jelas saat melihat makanan/mainan favorit',
+    ],
+    redflags: [
+      'Tidak dapat memegang kepala tegak',
+      'Tidak meraih benda sama sekali',
+      'Tidak tertawa atau bersuara gembira',
+      'Tidak merespons suara di sekitarnya',
+    ]
+  },
+  // ── 6 BULAN ──────────────────────────────
+  6: {
+    motorik_kasar: [
+      'Tengkurap dan mengangkat kepala 90° — stabil',
+      'Berguling dari telentang ke tengkurap dan sebaliknya',
+      'Duduk dengan bantuan / tripod (tangan menopang)',
+      'Menahan berat badan di kaki saat digendong berdiri',
+      'Mulai mencoba merangkak / bergerak maju saat tengkurap',
+    ],
+    motorik_halus: [
+      'Meraih dan menggenggam mainan dengan kedua tangan',
+      'Memindahkan benda dari satu tangan ke tangan lain',
+      'Memukul-mukul dua benda bersama',
+      'Memasukkan semua benda ke mulut',
+      'Menggenggam cukup kuat untuk menarik benda',
+    ],
+    bahasa: [
+      'Berceloteh "ba-ba, ma-ma, da-da" tanpa makna',
+      'Tertawa keras, berteriak gembira',
+      'Mengeluarkan suara protes saat mainan diambil',
+      'Merespons suara dengan menolehkan kepala',
+      'Mulai memahami intonasi — senang vs marah',
+    ],
+    kognitif: [
+      'Menoleh ke arah sumber suara',
+      'Mengenal wajah orang tua — tersenyum lebih banyak kepada orang dikenal',
+      'Tertarik pada cermin — tersenyum pada pantulan',
+      'Merespons ekspresi wajah pengasuh',
+      'Menunjukkan antisipasi terhadap rutinitas (mandi, makan)',
+    ],
+    sosial: [
+      'Tersenyum spontan dan aktif mengajak berinteraksi',
+      'Mulai menunjukkan stranger anxiety ringan',
+      'Menikmati bermain bersama orang tua',
+      'Menangis ketika mainan diambil',
+      'Merespons nama yang dipanggil',
+    ],
+    redflags: [
+      'Tidak bisa mengangkat kepala saat tengkurap',
+      'Tidak tersenyum kepada orang tua',
+      'Tidak menoleh ke arah suara',
+      'Otot sangat kaku atau sangat lemas',
+      'Tidak berceloteh sama sekali',
+    ]
+  },
+  // ── 9 BULAN ──────────────────────────────
+  9: {
+    motorik_kasar: [
+      'Duduk sendiri tanpa bantuan — stabil',
+      'Merangkak dengan koordinasi tangan-lutut',
+      'Berdiri berpegangan pada perabotan',
+      'Merambat berpegangan (cruising) ke samping',
+      'Bergerak dari posisi duduk ke merangkak dan sebaliknya',
+    ],
+    motorik_halus: [
+      'Mengambil benda kecil dengan ibu jari dan telunjuk (awal pincer grasp)',
+      'Memukul dua benda satu sama lain',
+      'Memasukkan benda ke dalam wadah',
+      'Melempar benda dengan sengaja',
+      'Menggunakan jari telunjuk untuk menunjuk / mencolek',
+    ],
+    bahasa: [
+      'Babbling panjang dengan variasi konsonan "ma-ma", "ba-ba", "da-da"',
+      'Meniru suara sederhana yang didengar',
+      'Memahami kata "tidak" dan nama sendiri',
+      'Berteriak untuk menarik perhatian',
+      'Menoleh konsisten saat nama dipanggil',
+    ],
+    kognitif: [
+      'Object permanence — mencari mainan yang disembunyikan di depan matanya',
+      'Meniru tindakan sederhana orang dewasa',
+      'Memeriksa benda dengan memutar dan membalik',
+      'Memasukkan-mengeluarkan benda dari wadah berulang kali',
+      'Memahami hubungan sebab-akibat sederhana',
+    ],
+    sosial: [
+      'Stranger anxiety jelas — rewel pada orang asing',
+      'Separation anxiety — menangis saat ditinggal orang tua',
+      'Melambaikan tangan (da-dah) setelah diajari',
+      'Bermain peek-a-boo dan cilukba dengan gembira',
+      'Menunjuk benda yang diinginkan',
+    ],
+    redflags: [
+      'Tidak bisa duduk tanpa bantuan',
+      'Tidak merangkak atau tidak bergerak sama sekali',
+      'Tidak merespons nama dipanggil',
+      'Tidak babbling sama sekali',
+      'Tidak menunjukkan minat pada benda di sekitarnya',
+    ]
+  },
+  // ── 12 BULAN ──────────────────────────────
+  12: {
+    motorik_kasar: [
+      'Berdiri sendiri tanpa berpegangan selama beberapa detik',
+      'Berjalan dengan berpegangan atau dibantu satu tangan',
+      'Naik tangga dengan merangkak',
+      'Duduk sendiri dari posisi berdiri dengan terkontrol',
+      'Merambat furniture dengan percaya diri',
+    ],
+    motorik_halus: [
+      'Pincer grasp sempurna — mengambil benda sangat kecil',
+      'Memasukkan benda kecil ke dalam lubang/wadah',
+      'Membalik halaman buku tebal',
+      'Mencoret-coret dengan crayon',
+      'Memegang cangkir dengan dua tangan',
+    ],
+    bahasa: [
+      'Mengucapkan "mama/papa" dengan bermakna',
+      'Memiliki 1-3 kata bermakna selain mama/papa',
+      'Memahami perintah sederhana "ambil", "kasih"',
+      'Memahami kata "tidak" dan bereaksi sesuai',
+      'Meniru kata-kata baru yang didengar',
+    ],
+    kognitif: [
+      'Object permanence kuat — mencari benda yang disembunyikan',
+      'Meniru tindakan orang dewasa dengan benar',
+      'Menunjuk benda yang diinginkan atau menarik',
+      'Bermain cilukba dengan sengaja',
+      'Menggunakan benda sesuai fungsinya (sendok ke mulut, telepon ke telinga)',
+    ],
+    sosial: [
+      'Melambaikan tangan "da-dah" saat perpisahan',
+      'Stranger anxiety masih jelas',
+      'Menunjuk untuk berbagi perhatian (joint attention)',
+      'Bermain bersama orang tua dengan antusias',
+      'Menunjukkan kasih sayang — memeluk, mencium',
+    ],
+    redflags: [
+      'Belum bisa duduk sendiri',
+      'Tidak merespons nama dipanggil',
+      'Belum ada kata bermakna sama sekali',
+      'Tidak membuat kontak mata',
+      'Tidak menunjuk atau melambaikan tangan',
+    ]
+  },
+  // ── 15 BULAN ──────────────────────────────
+  15: {
+    motorik_kasar: [
+      'Berjalan sendiri dengan baik — jarang jatuh',
+      'Membungkuk untuk mengambil benda dari lantai',
+      'Berjalan mundur beberapa langkah',
+      'Naik tangga berpegangan dengan dua kaki per anak tangga',
+      'Berlari meski masih sering jatuh',
+    ],
+    motorik_halus: [
+      'Membangun menara 2-3 balok',
+      'Memasukkan benda ke dalam wadah kecil dengan akurat',
+      'Memegang sendok dan mencoba menyuap sendiri',
+      'Membalik halaman buku (masih dua-tiga halaman sekaligus)',
+      'Mencoret dengan crayon meski tidak terarah',
+    ],
+    bahasa: [
+      'Kosakata 3-10 kata bermakna',
+      'Menggunakan satu kata untuk menyatakan kalimat (holofrase): "susu" = "aku minta susu"',
+      'Menunjuk gambar benda yang disebutkan',
+      'Memahami dan mengikuti instruksi satu langkah',
+      'Menggunakan kata "tidak" dengan bermakna',
+    ],
+    kognitif: [
+      'Bermain pura-pura sederhana — memberi makan boneka',
+      'Menemukan benda yang disembunyikan meski dipindahkan',
+      'Mengelompokkan benda berdasarkan bentuk sederhana',
+      'Menunjuk anggota tubuh saat ditanya (hidung, mata)',
+      'Menggunakan alat secara fungsional (sendok, sikat rambut)',
+    ],
+    sosial: [
+      'Menunjuk untuk menarik perhatian orang dewasa',
+      'Meniru tindakan orang dewasa dalam permainan',
+      'Menunjukkan kasih sayang kepada orang tua',
+      'Masih stranger anxiety — lebih selektif',
+      'Mulai menunjukkan rasa iri atau protes saat perhatian dialihkan',
+    ],
+    redflags: [
+      'Belum bisa berjalan sama sekali',
+      'Tidak memiliki satu kata pun yang bermakna',
+      'Tidak menunjuk benda atau gambar',
+      'Tidak memahami instruksi sederhana',
+    ]
+  },
+  // ── 18 BULAN ──────────────────────────────
+  18: {
+    motorik_kasar: [
+      'Berjalan mandiri dan stabil',
+      'Berlari meski masih canggung',
+      'Naik tangga berpegangan — dua kaki per anak tangga',
+      'Menendang bola ke depan',
+      'Mendorong dan menarik mainan beroda',
+    ],
+    motorik_halus: [
+      'Membangun menara 3-4 balok',
+      'Mencoret garis spontan di kertas',
+      'Menyuap sendiri dengan sendok — sedikit tumpah',
+      'Minum dari cangkir tanpa tutup meski kadang tumpah',
+      'Membuka resleting dan kancing besar dengan bantuan',
+    ],
+    bahasa: [
+      'Kosakata 10-20 kata bermakna',
+      'Menunjuk gambar di buku yang disebutkan (minimal 5 benda)',
+      'Memahami dan mengikuti instruksi 2 langkah sederhana',
+      'Menggunakan "tidak" dan geleng kepala dengan konsisten',
+      'Menyebut nama diri sendiri atau "aku"',
+    ],
+    kognitif: [
+      'Bermain pura-pura lebih kompleks (menelpon, memasak)',
+      'Mengelompokkan benda serupa',
+      'Menyelesaikan puzzle 2-3 keping sederhana',
+      'Memahami konsep "di dalam", "di luar"',
+      'Mulai mengenal gambar diri di foto',
+    ],
+    sosial: [
+      'Bermain sendiri namun senang dekat orang tua (solitary play)',
+      'Menunjukkan empati kasar — mendekat ke orang yang menangis',
+      'Temper tantrum mulai muncul',
+      'Meniru pekerjaan rumah tangga orang tua',
+      'Mulai memahami "milik saya" vs "milik kamu"',
+    ],
+    redflags: [
+      'Kosakata kurang dari 6 kata bermakna',
+      'Tidak menunjuk untuk meminta atau menunjukkan sesuatu',
+      'Tidak mengerti instruksi sederhana',
+      'Kehilangan kemampuan bahasa/sosial yang sebelumnya sudah ada',
+    ]
+  },
+  // ── 24 BULAN ──────────────────────────────
+  24: {
+    motorik_kasar: [
+      'Berlari dengan baik dan jarang jatuh',
+      'Menendang bola ke depan dengan ayunan kaki',
+      'Naik turun tangga berpegangan',
+      'Melompat dengan dua kaki bersamaan',
+      'Melempar bola ke atas atau ke depan dengan terarah',
+    ],
+    motorik_halus: [
+      'Membangun menara 6-7 balok',
+      'Mencoret garis vertikal dan horizontal',
+      'Melepas kancing besar',
+      'Menggunakan sendok dan garpu dengan cukup baik',
+      'Membalik halaman buku satu per satu',
+    ],
+    bahasa: [
+      'Kosakata 50+ kata bermakna',
+      'Menggabungkan 2 kata: "minta makan", "mama pergi"',
+      'Menyebutkan nama benda di sekitar',
+      'Menunjuk gambar yang disebutkan dengan akurat',
+      'Bertanya "apa itu?" untuk semua benda baru',
+    ],
+    kognitif: [
+      'Bermain pura-pura (pretend play) yang lebih kompleks',
+      'Menyelesaikan puzzle 3-4 keping',
+      'Mengenal nama dan wajah sendiri',
+      'Membedakan "satu" dan "banyak"',
+      'Mulai memahami konsep warna dasar',
+    ],
+    sosial: [
+      'Bermain paralel dengan anak lain (berdampingan, belum bersama)',
+      'Menunjukkan kasih sayang kepada boneka/hewan peliharaan',
+      'Mengikuti aturan sederhana rumah',
+      'Mulai menunjukkan kemandirian yang kuat',
+      'Tantrum masih sering — puncak usia 2 tahun',
+    ],
+    redflags: [
+      'Kosakata kurang dari 15 kata',
+      'Tidak menggabungkan 2 kata sama sekali',
+      'Tidak menunjuk gambar di buku',
+      'Tidak bisa berlari',
+      'Kehilangan kemampuan bahasa yang sebelumnya sudah ada',
+    ]
+  },
+  // ── 36 BULAN ──────────────────────────────
+  36: {
+    motorik_kasar: [
+      'Naik turun tangga bergantian kaki',
+      'Mengayuh sepeda roda 3',
+      'Berdiri dengan satu kaki selama 1-2 detik',
+      'Melempar bola ke atas dan menangkap dengan dua tangan',
+      'Melompat ke depan beberapa langkah',
+    ],
+    motorik_halus: [
+      'Menggambar lingkaran yang ditiru',
+      'Menggunting kertas mengikuti garis lurus',
+      'Memasang dan melepas kancing besar',
+      'Menggambar wajah sederhana (lingkaran dengan dua titik)',
+      'Membangun menara 9-10 balok',
+    ],
+    bahasa: [
+      'Kalimat 3-4 kata dengan tata bahasa yang mulai benar',
+      'Mengenal nama lengkap dan usia diri sendiri',
+      'Menggunakan kata ganti: "saya", "kamu", "dia"',
+      'Bercerita tentang pengalaman dengan urutan logis',
+      'Bertanya "mengapa?" dan "bagaimana?" terus-menerus',
+    ],
+    kognitif: [
+      'Menghitung 1-5 benda dengan menunjuk satu per satu',
+      'Mengenal dan menyebut 3-4 warna dasar',
+      'Memahami konsep besar-kecil, panjang-pendek',
+      'Bermain peran (dokter, masak-masakan, guru)',
+      'Mengelompokkan benda berdasarkan warna atau bentuk',
+    ],
+    sosial: [
+      'Bermain bersama teman sebaya (cooperative play awal)',
+      'Menunjukkan empati — menghibur teman yang sedih',
+      'Mematuhi 2 perintah sekaligus',
+      'Mengenal jenis kelamin diri sendiri',
+      'Tantrum mulai berkurang, lebih bisa diajak negosiasi',
+    ],
+    redflags: [
+      'Tidak membuat kalimat 3 kata',
+      'Tidak bermain pura-pura sama sekali',
+      'Tidak mengenal nama sendiri',
+      'Sangat sulit berinteraksi dengan anak lain',
+      'Tidak memahami instruksi 2 langkah',
+    ]
+  },
+  // ── 48 BULAN (4 TAHUN) ────────────────────
+  48: {
+    motorik_kasar: [
+      'Berdiri satu kaki selama 4-5 detik',
+      'Melompat-lompat di satu tempat dengan dua kaki',
+      'Berlari dengan gesit, belok, berhenti terkontrol',
+      'Melempar dan menangkap bola dengan lebih akurat',
+      'Berjalan di atas papan keseimbangan / garis lurus',
+    ],
+    motorik_halus: [
+      'Menggambar orang dengan kepala, badan, tangan, kaki',
+      'Menggunting mengikuti garis lengkung',
+      'Memasang kancing dan resleting sendiri',
+      'Menulis beberapa huruf (biasanya huruf namanya sendiri)',
+      'Memegang pensil dengan tripod grasp yang benar',
+    ],
+    bahasa: [
+      'Kalimat 4-6 kata dengan tata bahasa hampir benar',
+      'Bercerita dengan alur yang jelas (awal-tengah-akhir)',
+      'Memahami dan menggunakan kata sifat dan kata keterangan',
+      'Menyanyikan lagu anak-anak dengan lengkap',
+      'Bertanya "kapan?" dan "siapa?" dengan tepat',
+    ],
+    kognitif: [
+      'Menghitung 1-10 dengan memahami konsep kuantitas',
+      'Mengenal dan menyebut minimal 6 warna',
+      'Memahami konsep "kemarin", "hari ini", "besok"',
+      'Menyelesaikan puzzle 10-12 keping',
+      'Memahami aturan permainan sederhana dan bermain sesuai aturan',
+    ],
+    sosial: [
+      'Bermain kelompok — berbagi dan bergiliran lebih baik',
+      'Memiliki teman bermain favorit',
+      'Memahami dan mengikuti aturan permainan',
+      'Mampu berpisah dari orang tua tanpa tangisan berlebihan',
+      'Menunjukkan kreativitas — menciptakan permainan dan cerita sendiri',
+    ],
+    redflags: [
+      'Tidak bisa berdiri satu kaki sama sekali',
+      'Tidak membuat kalimat 4 kata',
+      'Tidak bermain bersama anak lain',
+      'Tidak mengenal huruf sama sekali',
+      'Sangat sulit berpisah dari orang tua (separation anxiety berlebihan)',
+    ]
+  },
+};
+const MILESTONE_LABELS = { motorik_kasar:'🏃 Motorik Kasar', motorik_halus:'🤏 Motorik Halus', bahasa:'💬 Bahasa & Komunikasi', kognitif:'🧠 Kognitif', sosial:'🤝 Sosial-Emosi' };
+
+function renderMilestone() {
+  const sel = parseInt(document.getElementById('milestoneAgeSelect').value);
+  const data = MILESTONE_DATA[sel];
+  const body = document.getElementById('milestoneBody');
+  const cd = getChildData();
+  if (!cd) { body.innerHTML = '<div class="empty-state"><div class="empty-icon">👶</div><div class="empty-text">Pilih anak terlebih dahulu</div></div>'; return; }
+  if (!data) { body.innerHTML = '<div class="empty-state"><div class="empty-icon">🚧</div><div class="empty-text">Data milestone untuk usia ini segera hadir</div></div>'; return; }
+  let html = `<div class="card mb-2"><div class="card-pad"><div class="text-bold mb-1">Milestone Usia ${sel} Bulan</div><div class="text-xs text-muted">Centang pencapaian yang sudah dicapai si kecil</div></div></div>`;
+  const domains = ['motorik_kasar','motorik_halus','bahasa','kognitif','sosial'];
+  domains.forEach(domain => {
+    html += `<div class="milestone-domain"><div class="milestone-domain-title">${MILESTONE_LABELS[domain]}</div>`;
+    data[domain].forEach((item, i) => {
+      const key = `${sel}_${domain}_${i}`;
+      const done = cd.milestone ? cd.milestone[key] : false;
+      html += '<div class="milestone-card" onclick="toggleMilestone(\'' + key + '\',this)">' + '<div class="milestone-check ' + (done?'done':'') + '">' + (done?'✓':'') + '</div>' + '<span class="milestone-text">' + item + '</span>' + '</div>';
+    });
+    html += `</div>`;
+  });
+  if (data.redflags) {
+    html += `<div class="card" style="border-left:4px solid var(--danger);"><div class="card-pad">
+      <div class="text-bold text-danger mb-2">🚨 Tanda Bahaya (Red Flags)</div>
+      <div style="font-size:12px;color:var(--text-secondary);">Segera konsultasikan ke dokter jika:</div>
+      <ul style="font-size:12px;color:var(--danger);line-height:2;padding-left:16px;margin-top:4px;">
+        ${data.redflags.map(r=>`<li>${r}</li>`).join('')}
+      </ul>
+    </div></div>`;
+  }
+  body.innerHTML = html;
+}
+
+function toggleMilestone(key, el) {
+  var cd = getChildData();
+  if (!cd) return;
+  if (!cd.milestone) cd.milestone = {};
+  cd.milestone[key] = !cd.milestone[key];
+  saveState();
+  const check = el.querySelector('.milestone-check');
+  check.classList.toggle('done', cd.milestone[key]);
+  check.textContent = cd.milestone[key] ? '✓' : '';
+  if (cd.milestone[key]) showToast('success','Pencapaian dicatat!','Bagus! Si kecil terus berkembang');
+}
+
+// ══════════════════════════════════════
+// GROWTH
+// ══════════════════════════════════════
+function openAddGrowth() {
+  const form = document.getElementById('addGrowthForm');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('g_date').value = today();
+}
+
+function saveGrowth() {
+  const d = { date: document.getElementById('g_date').value, bb: parseFloat(document.getElementById('g_bb').value)||null, tb: parseFloat(document.getElementById('g_tb').value)||null, lk: parseFloat(document.getElementById('g_lk').value)||null, note: document.getElementById('g_note').value };
+  if (!d.date || (!d.bb && !d.tb)) { showToast('warning','Data kurang','Isi minimal tanggal dan berat badan'); return; }
+  var cd = getChildData();
+  if (!cd) return;
+  cd.growth.push(d);
+  cd.growth.sort(function(a,b){ return new Date(a.date)-new Date(b.date); });
+  saveState();
+  document.getElementById('addGrowthForm').style.display = 'none';
+  renderGrowthStats(); renderGrowthChart(); renderGrowthHistory(); renderGiziCard();
+  updateHeaderStats();
+  showToast('success','Pertumbuhan dicatat!','Data berhasil disimpan 📏');
+}
+
+function renderGrowthStats() {
+  var cd = getChildData();
+  var growth = cd ? cd.growth : [];
+  const latest = growth.length ? growth[growth.length-1] : null;
+  const el = document.getElementById('growthStats');
+  if (!latest) { el.innerHTML = '<div class="empty-state" style="padding:16px;"><div class="empty-icon" style="font-size:32px;">📏</div><div class="empty-text">Belum ada data pertumbuhan</div></div>'; return; }
+  const cards = [
+    { lbl:'BB', val: latest.bb ? `${latest.bb} kg` : '—', color: 'var(--primary)' },
+    { lbl:'TB', val: latest.tb ? `${latest.tb} cm` : '—', color: 'var(--success)' },
+    { lbl:'LK', val: latest.lk ? `${latest.lk} cm` : '—', color: 'var(--secondary)' },
+  ];
+  el.innerHTML = cards.map(c => `<div class="card"><div class="card-pad" style="text-align:center;padding:12px 8px;">
+    <div style="font-size:18px;font-weight:900;color:${c.color};">${c.val}</div>
+    <div class="text-xs text-muted mt-1">${c.lbl}</div>
+    <div style="font-size:9px;color:var(--text-secondary);margin-top:2px;">${fmtDate(latest.date)}</div>
+  </div></div>`).join('');
+}
+
+function renderGrowthChart() {
+  const canvas = document.getElementById('growthCanvas');
+  if (!canvas) return;
+  const type = document.getElementById('growthChartType') ? document.getElementById('growthChartType').value : 'bb';
+  var cd2 = getChildData();
+  const data = (cd2 ? cd2.growth : []).filter(function(g){ return g[type]; });
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 320;
+  const H = 220;
+  canvas.width = W * 2; canvas.height = H * 2;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(2, 2);
+  // Background
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  if (!data.length) {
+    ctx.fillStyle = '#aaa'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Belum ada data. Ketuk "+ Catat" untuk mulai.', W/2, H/2); return;
+  }
+  const vals = data.map(g => g[type]);
+  const minV = Math.min(...vals) * 0.95;
+  const maxV = Math.max(...vals) * 1.05;
+  const PAD = { t:20, b:30, l:38, r:15 };
+  const CW = W - PAD.l - PAD.r;
+  const CH = H - PAD.t - PAD.b;
+  const toX = (i) => PAD.l + (i / (data.length - 1 || 1)) * CW;
+  const toY = (v) => PAD.t + CH - ((v - minV) / (maxV - minV) || 0) * CH;
+  // Grid
+  ctx.strokeStyle = '#eee'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = PAD.t + (i/4)*CH;
+    ctx.beginPath(); ctx.moveTo(PAD.l, y); ctx.lineTo(W-PAD.r, y); ctx.stroke();
+    const v = maxV - (i/4)*(maxV-minV);
+    ctx.fillStyle = '#aaa'; ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(1), PAD.l-4, y+3);
+  }
+  // X labels
+  data.forEach((g, i) => {
+    if (i % Math.ceil(data.length/5) === 0 || i === data.length-1) {
+      ctx.fillStyle = '#aaa'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+      const d = new Date(g.date);
+      ctx.fillText(`${d.getDate()}/${d.getMonth()+1}`, toX(i), H-10);
+    }
+  });
+  // Line
+  ctx.beginPath(); ctx.strokeStyle = '#00897B'; ctx.lineWidth = 2.5;
+  data.forEach((g, i) => { i===0 ? ctx.moveTo(toX(i),toY(g[type])) : ctx.lineTo(toX(i),toY(g[type])); });
+  ctx.stroke();
+  // Area fill
+  ctx.beginPath(); ctx.moveTo(toX(0), H-PAD.b);
+  data.forEach((g, i) => ctx.lineTo(toX(i), toY(g[type])));
+  ctx.lineTo(toX(data.length-1), H-PAD.b); ctx.closePath();
+  ctx.fillStyle = 'rgba(0,137,123,0.1)'; ctx.fill();
+  // Dots
+  data.forEach((g, i) => {
+    ctx.beginPath(); ctx.arc(toX(i), toY(g[type]), 4, 0, Math.PI*2);
+    ctx.fillStyle = '#00897B'; ctx.fill();
+    ctx.strokeStyle = 'white'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+  // Latest label
+  const li = data.length-1;
+  ctx.fillStyle = '#00897B'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(data[li][type] + ' ' + (type==='bb'?'kg':'cm'), toX(li), toY(data[li][type])-10);
+}
+
+function renderGrowthHistory() {
+  const el = document.getElementById('growthHistory');
+  var cdH = getChildData();
+  var growthH = cdH ? cdH.growth : [];
+  if (!growthH.length) { el.innerHTML = '<div class="empty-state" style="padding:12px;"><div class="text-muted text-sm">Belum ada riwayat pengukuran</div></div>'; return; }
+  let html = '<div style="overflow-x:auto;"><table class="growth-table"><thead><tr><th>Tanggal</th><th>BB (kg)</th><th>TB (cm)</th><th>LK (cm)</th><th>Ket.</th></tr></thead><tbody>';
+  [...growthH].reverse().slice(0,10).forEach(function(g) {
+    html += '<tr><td>' + fmtDate(g.date) + '</td><td>' + (g.bb||'—') + '</td><td>' + (g.tb||'—') + '</td><td>' + (g.lk||'—') + '</td><td style="font-size:11px;">' + (g.note||'—') + '</td></tr>';
+  });
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+}
+
+function renderGiziCard() {
+  const c = getActiveChild();
+  const el = document.getElementById('giziContent');
+  var cdG = getChildData();
+  var growthG = cdG ? cdG.growth : [];
+  const latest = growthG.length ? growthG[growthG.length-1] : null;
+  if (!latest || !latest.bb || !c || !c.dob) { el.innerHTML = '<div class="text-muted text-sm">Lengkapi data pertumbuhan untuk melihat status gizi.</div>'; return; }
+  const age = getAgeFromDob(c.dob);
+  // Very simplified z-score estimation for BB/U
+  const medians = {6:7.3,9:8.9,12:9.6,18:10.9,24:12.2,36:14.3,48:16.3};
+  const closest = Object.keys(medians).reduce((a,b) => Math.abs(b-age.totalMonths) < Math.abs(a-age.totalMonths) ? b : a);
+  const median = medians[closest];
+  const ratio = latest.bb / median;
+  let status, color, desc;
+  if (ratio >= 1.1) { status='Risiko Gizi Lebih'; color='var(--warning)'; desc='BB di atas median WHO. Konsultasikan pola makan ke dokter anak.'; }
+  else if (ratio >= 0.9) { status='Gizi Baik'; color='var(--success)'; desc='Pertumbuhan berat badan sesuai referensi WHO. Pertahankan pola makan sehat!'; }
+  else if (ratio >= 0.8) { status='Gizi Kurang'; color='var(--secondary)'; desc='BB sedikit di bawah median. Evaluasi pola makan dan kunjungi dokter anak.'; }
+  else { status='Gizi Buruk'; color='var(--danger)'; desc='BB jauh di bawah median. Segera konsultasi ke dokter anak atau puskesmas.'; }
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--gray-100);border-radius:10px;">
+    <div style="font-size:28px;">${ratio>=1.1?'⚠️':ratio>=0.9?'✅':ratio>=0.8?'⚠️':'🚨'}</div>
+    <div>
+      <div style="font-size:15px;font-weight:800;color:${color};">${status}</div>
+      <div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">${desc}</div>
+      <div style="font-size:10px;color:var(--text-secondary);margin-top:4px;">BB: ${latest.bb}kg • Median ${age.totalMonths} bln: ~${median}kg • Estimasi sederhana</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// MPASI
+// ══════════════════════════════════════
+const MPASI_PHASES = [
+  { title:'Fase 1', range:'6 Bulan', emoji:'🥣', grad:'#795548,#A1887F', texture:'Pure/Bubur halus', desc:'Satu bahan makanan per hari, tekstur saring halus', foods:[
+    {icon:'🥕',name:'Puree Wortel',desc:'Kukus & haluskan, sumber beta-karoten'},
+    {icon:'🍠',name:'Puree Ubi Jalar',desc:'Manis alami, kaya vitamin A'},
+    {icon:'🥦',name:'Puree Brokoli',desc:'Kaya zat besi dan vitamin C'},
+    {icon:'🍌',name:'Puree Pisang',desc:'Mudah dicerna, sumber energi cepat'},
+    {icon:'🍎',name:'Puree Apel',desc:'Kukus dulu, hindari mentah untuk bayi 6 bln'},
+  ]},
+  { title:'Fase 2', range:'7-8 Bulan', emoji:'🍲', grad:'#F57C00,#FFB74D', texture:'Bubur saring / kasar', desc:'Dua atau lebih bahan, mulai tekstur lebih kasar', foods:[
+    {icon:'🐓',name:'Nasi Tim Ayam',desc:'Protein hewani wajib sejak dini'},
+    {icon:'🐟',name:'Bubur Ikan',desc:'Omega-3 untuk perkembangan otak'},
+    {icon:'🥚',name:'Kuning Telur',desc:'Sumber zat besi & lemak baik'},
+    {icon:'🫘',name:'Bubur Kacang Merah',desc:'Protein nabati & zat besi tinggi'},
+    {icon:'🍜',name:'Nasi Tim Tahu',desc:'Protein nabati lembut'},
+  ]},
+  { title:'Fase 3', range:'9-11 Bulan', emoji:'🍱', grad:'#2E7D32,#66BB6A', texture:'Cincang halus / Finger food', desc:'Tekstur lebih padat, mulai finger food sederhana', foods:[
+    {icon:'🫕',name:'Nasi Lembek Lauk Pauk',desc:'Mulai menu keluarga yang disesuaikan'},
+    {icon:'🧀',name:'Finger Food: Keju',desc:'Sumber kalsium, lemak sehat'},
+    {icon:'🥑',name:'Potongan Alpukat',desc:'Lemak baik untuk otak'},
+    {icon:'🍗',name:'Potongan Ayam Rebus',desc:'Latihan mengunyah'},
+    {icon:'🫐',name:'Buah-buahan potong',desc:'Blueberry, melon, pisang — hindari anggur utuh!'},
+  ]},
+  { title:'Fase 4', range:'12 Bulan+', emoji:'🍽️', grad:'#1565C0,#42A5F5', texture:'Makanan keluarga', desc:'Hampir sama dengan makanan keluarga, hindari gula/garam berlebih', foods:[
+    {icon:'🍚',name:'Nasi + Lauk Keluarga',desc:'Potong kecil sesuai kemampuan kunyah'},
+    {icon:'🥛',name:'Susu Sapi',desc:'Bisa mulai susu sapi penuh (whole milk)'},
+    {icon:'🥜',name:'Selai Kacang (encer)',desc:'Protein tinggi, kenalkan hati-hati (alergen)'},
+    {icon:'🍳',name:'Telur Orak-arik',desc:'Mudah dibuat, bergizi lengkap'},
+    {icon:'🍝',name:'Pasta / Mie',desc:'Variasi karbohidrat yang menyenangkan'},
+  ]}
+];
+
+function renderMPASI() {
+  const c = getActiveChild();
+  const age = (c && c.dob) ? getAgeFromDob(c.dob) : null;
+  let html = '';
+  // Status MPASI
+  if (age) {
+    const m = age.totalMonths;
+    let phase = m < 6 ? 'Belum waktunya MPASI' : m < 7 ? 'Fase 1 (6 bulan)' : m < 9 ? 'Fase 2 (7-8 bulan)' : m < 12 ? 'Fase 3 (9-11 bulan)' : 'Fase 4 (12 bulan+)';
+    var childName = c ? (c.name||'Si Kecil') : 'Si Kecil';
+    html += '<div class="card mb-2"><div class="card-pad flex-between"><div><div class="text-bold">Status MPASI ' + childName + '</div><div class="text-sm text-muted mt-1">' + phase + '</div></div><span class="badge badge-primary">' + m + ' bln</span></div></div>';
+    if (m < 6) {
+      html += `<div class="card mb-2" style="border-left:4px solid var(--warning);"><div class="card-pad">
+        <div class="text-bold text-warning">⚠️ MPASI Belum Waktunya</div>
+        <div class="text-sm text-muted mt-2">WHO dan IDAI merekomendasikan MPASI dimulai tepat di usia 6 bulan. ASI eksklusif cukup sampai 6 bulan.</div>
+      </div></div>`;
+    }
+  }
+  // Alert alergen
+  html += `<div class="card mb-2" style="border-left:4px solid var(--secondary);"><div class="card-pad">
+    <div class="text-bold" style="color:var(--secondary);">⚠️ Makanan Alergen</div>
+    <div class="text-sm text-muted mt-2">Kenalkan satu per satu dengan jeda 3-5 hari. Pantau reaksi: ruam, gatal, muntah, sesak napas.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+      ${['🥚 Telur','🥜 Kacang','🐟 Ikan','🦐 Seafood','🌾 Gluten','🥛 Susu Sapi','🌰 Tree Nuts'].map(f=>`<span class="badge badge-warning">${f}</span>`).join('')}
+    </div>
+  </div></div>`;
+  // Phases
+  MPASI_PHASES.forEach(phase => {
+    html += `<div class="mpasi-phase-card" style="background:linear-gradient(135deg,${phase.grad});">
+      <span class="mpasi-icon">${phase.emoji}</span>
+      <div>
+        <div class="mpasi-title">${phase.title} — ${phase.range}</div>
+        <div class="mpasi-sub">${phase.texture}</div>
+        <div class="mpasi-sub">${phase.desc}</div>
+      </div>
+    </div>`;
+    phase.foods.forEach(f => {
+      html += `<div class="food-card"><span class="food-icon">${f.icon}</span><div><div class="food-name">${f.name}</div><div class="food-desc">${f.desc}</div></div></div>`;
+    });
+  });
+  // Tips
+  html += `<div class="card mt-2"><div class="card-pad">
+    <div class="text-bold mb-2">💡 Tips MPASI Sukses</div>
+    <ul style="font-size:12px;color:var(--text-primary);line-height:2;padding-left:16px;">
+      <li>Berikan MPASI 2-3x/hari + ASI tetap diteruskan</li>
+      <li>Hindari garam, gula, dan madu sampai usia 1 tahun</li>
+      <li>Jangan paksa anak — butuh 10-15 eksposur untuk menerima makanan baru</li>
+      <li>Dukung dengan zinc & zat besi (daging merah, hati ayam)</li>
+      <li>Responsive feeding: ikuti tanda lapar & kenyang bayi</li>
+    </ul>
+  </div></div>`;
+  document.getElementById('mpasiBody').innerHTML = html;
+}
+
+// ══════════════════════════════════════
+// SICK LOG
+// ══════════════════════════════════════
+function openAddSick() {
+  const f = document.getElementById('addSickForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('s_date').value = today();
+}
+function saveSick() {
+  const d = { date:document.getElementById('s_date').value, keluhan:document.getElementById('s_keluhan').value, suhu:parseFloat(document.getElementById('s_suhu').value)||null, tindakan:document.getElementById('s_tindakan').value, note:document.getElementById('s_note').value };
+  if (!d.keluhan) { showToast('warning','Isi keluhan','Keluhan utama wajib diisi'); return; }
+  var cd=getChildData(); if(!cd)return;
+  cd.sick.push(d);
+  saveState();
+  document.getElementById('addSickForm').style.display = 'none';
+  renderSickList();
+  showToast('success','Catatan disimpan','Semoga lekas sembuh ya');
+}
+function renderSickList() {
+  const el = document.getElementById('sickList');
+  var cdS=getChildData(); var sickArr=cdS?cdS.sick:[];
+  if (!sickArr.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">😊</div><div class="empty-text">Alhamdulillah belum ada catatan sakit</div></div>'; return; }
+  el.innerHTML = [...sickArr].reverse().map(function(s) {
+    const suhu = s.suhu;
+    let tempClass = 'temp-normal', tempLabel = '';
+    if (suhu) { tempClass = suhu >= 38 ? 'temp-fever' : suhu >= 37.5 ? 'temp-subfebris' : 'temp-normal'; tempLabel = suhu >= 38 ? 'Demam' : suhu >= 37.5 ? 'Subfebris' : 'Normal'; }
+    return `<div class="sick-entry">
+      <div class="flex-between"><span class="sick-date">${fmtDate(s.date)}</span>${suhu?`<span class="temp-badge ${tempClass}">🌡️ ${suhu}°C ${tempLabel}</span>`:''}</div>
+      <div class="sick-title">${s.keluhan}</div>
+      ${s.tindakan?`<div class="sick-desc">💊 ${s.tindakan}</div>`:''}
+      ${s.note?`<div class="sick-desc">📝 ${s.note}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════
+// SLEEP LOG
+// ══════════════════════════════════════
+function openAddSleep() {
+  const f = document.getElementById('addSleepForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('sl_date').value = today();
+}
+function saveSleep() {
+  const d = { date:document.getElementById('sl_date').value, start:document.getElementById('sl_start').value, end:document.getElementById('sl_end').value, type:document.getElementById('sl_type').value };
+  if (!d.start || !d.end) { showToast('warning','Isi waktu','Jam mulai dan selesai wajib diisi'); return; }
+  var cdSl=getChildData(); if(!cdSl)return;
+  cdSl.sleep.push(d);
+  saveState();
+  document.getElementById('addSleepForm').style.display = 'none';
+  renderSleepList(); renderSleepSummary();
+  updateHeaderStats();
+  showToast('success','Tidur dicatat','Tidur yang cukup = tumbuh optimal');
+}
+function renderSleepList() {
+  const el = document.getElementById('sleepList');
+  var cdSl2=getChildData(); var sleepArr=cdSl2?cdSl2.sleep:[];
+  if (!sleepArr.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">😴</div><div class="empty-text">Belum ada catatan tidur</div></div>'; return; }
+  el.innerHTML = '<div class="card"><div class="card-pad"><div class="text-bold mb-2">Riwayat Tidur</div>' +
+    [...sleepArr].reverse().slice(0,20).map(function(s) {
+      const dur = calcSleepDur(s.start, s.end);
+      return `<div class="sleep-row">
+        <div class="sleep-dot" style="background:${s.type==='night'?'#1E88E5':'#F57C00'};"></div>
+        <div class="sleep-time">${s.start} – ${s.end}</div>
+        <div class="sleep-dur">${dur} jam</div>
+        <span class="sleep-type ${s.type==='night'?'st-night':'st-nap'}">${s.type==='night'?'🌙 Malam':'☀️ Siang'}</span>
+      </div>`;
+    }).join('') + '</div></div>';
+}
+function renderSleepSummary() {
+  const el = document.getElementById('sleepSummary');
+  var cdSS=getChildData(); var sleepArrSS=cdSS?cdSS.sleep:[];
+  const last7 = sleepArrSS.filter(function(s){ var d=new Date(s.date); var n=new Date(); return (n-d)/86400000 <= 7; });
+  if (!last7.length) { el.innerHTML = '<div class="text-muted text-sm">Belum ada data 7 hari terakhir</div>'; return; }
+  const total = last7.reduce((a,s) => a + parseFloat(calcSleepDur(s.start,s.end)), 0);
+  const avg = (total / last7.length).toFixed(1);
+  el.innerHTML = `<div class="flex-between py-2" style="border-bottom:1px solid var(--gray-200);"><span class="text-sm">Rata-rata per hari</span><span class="text-bold" style="color:var(--primary);">${avg} jam</span></div>
+    <div class="flex-between py-2"><span class="text-sm">Total sesi dicatat</span><span class="text-bold">${last7.length} sesi</span></div>`;
+}
+function renderSleepRecommendation() {
+  const c = getActiveChild();
+  const el = document.getElementById('sleepRecommendation');
+  if (!c.dob) { el.innerHTML = '<div class="text-muted text-sm">Lengkapi profil anak untuk rekomendasi personal.</div>'; return; }
+  const age = getAgeFromDob(c.dob);
+  const m = age.totalMonths;
+  let rec = '';
+  if (m < 4) rec = '14-17 jam/hari (termasuk tidur siang)';
+  else if (m < 12) rec = '12-16 jam/hari (termasuk tidur siang)';
+  else if (m < 36) rec = '11-14 jam/hari (termasuk 1-2 tidur siang)';
+  else if (m < 60) rec = '10-13 jam/hari (1 tidur siang opsional)';
+  else rec = '9-12 jam/hari';
+  el.innerHTML = `<div style="font-size:14px;font-weight:800;color:var(--primary);">${rec}</div><div class="text-xs text-muted mt-1">Untuk usia ${formatAge(age)} • Sumber: AAP/AAP Sleep Guidelines</div>`;
+}
+
+// ══════════════════════════════════════
+// JURNAL
+// ══════════════════════════════════════
+let jurnalTags = [];
+function openAddJurnal() {
+  const f = document.getElementById('addJurnalForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  document.getElementById('j_date').value = today();
+  jurnalTags = [];
+  document.querySelectorAll('#jurnalTagContainer .ecat-btn').forEach(b => b.classList.remove('active'));
+}
+function toggleJurnalTag(btn, tag) {
+  btn.classList.toggle('active');
+  if (jurnalTags.includes(tag)) jurnalTags = jurnalTags.filter(t => t !== tag);
+  else jurnalTags.push(tag);
+}
+function saveJurnal() {
+  const d = { id: Date.now(), date:document.getElementById('j_date').value, title:document.getElementById('j_title').value, text:document.getElementById('j_text').value, tags:[...jurnalTags] };
+  if (!d.title) { showToast('warning','Isi judul','Judul momen wajib diisi'); return; }
+  var cdJ=getChildData(); if(!cdJ)return;
+  cdJ.jurnal.push(d);
+  saveState();
+  document.getElementById('addJurnalForm').style.display = 'none';
+  renderJurnalList(); renderRecentJurnal();
+  showToast('success','Momen disimpan!','Setiap momen si kecil sangat berharga');
+}
+function renderJurnalList() {
+  const el = document.getElementById('jurnalList');
+  var cdJL=getChildData(); var jurnalArr=cdJL?cdJL.jurnal:[];
+  if (!jurnalArr.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📖</div><div class="empty-text">Belum ada momen yang dicatat</div><div class="empty-sub">Catat setiap pencapaian si kecil</div></div>'; return; }
+  el.innerHTML = [...jurnalArr].reverse().map(function(j){ return `
+    <div class="jurnal-entry">
+      <div class="jurnal-date">${fmtDate(j.date)}</div>
+      <div class="jurnal-title">${j.title}</div>
+      ${j.text?`<div class="jurnal-text">${j.text}</div>`:''}
+      ${j.tags&&j.tags.length?'<div class="jurnal-tags">' + j.tags.map(function(t){return '<span class="jurnal-tag">'+t+'</span>';}).join('') + '</div>':''}
+    </div>`; }).join('');
+}
+function renderRecentJurnal() {
+  const el = document.getElementById('recentJurnalList');
+  var cdJR=getChildData(); var jurnalR=cdJR?cdJR.jurnal:[];
+  if (!jurnalR.length) { el.innerHTML = '<div class="empty-state" style="padding:16px;"><div class="empty-icon" style="font-size:32px;">📖</div><div class="empty-text">Belum ada momen dicatat</div></div>'; return; }
+  el.innerHTML = jurnalR.slice(-3).reverse().map(function(j){ return `
+    <div class="jurnal-entry">
+      <div class="jurnal-date">${fmtDate(j.date)}</div>
+      <div class="jurnal-title">${j.title}</div>
+      ${j.tags&&j.tags.length?'<div class="jurnal-tags">' + j.tags.map(function(t){return '<span class="jurnal-tag">'+t+'</span>';}).join('') + '</div>':''}
+    </div>`; }).join('');
+}
+
+// ══════════════════════════════════════
+// REMINDERS
+// ══════════════════════════════════════
+function openAddReminder() {
+  const f = document.getElementById('addReminderForm');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+function saveReminder() {
+  const d = { id:Date.now(), title:document.getElementById('r_title').value, datetime:document.getElementById('r_datetime').value, cat:document.getElementById('r_cat').value, note:document.getElementById('r_note').value };
+  if (!d.title || !d.datetime) { showToast('warning','Lengkapi data','Judul dan waktu wajib diisi'); return; }
+  state.reminders.push(d);
+  saveState();
+  document.getElementById('addReminderForm').style.display = 'none';
+  renderReminderList();
+  showToast('success','Pengingat disimpan!','Anda akan diingatkan tepat waktu 🔔');
+}
+const CAT_ICONS = { vaksin:'💉', kontrol:'🩺', vitamin:'💊', mpasi:'🍼', lain:'📋' };
+function renderReminderList() {
+  const el = document.getElementById('reminderList');
+  const now = new Date();
+  const sorted = [...state.reminders].sort((a,b) => new Date(a.datetime)-new Date(b.datetime));
+  const upcoming = sorted.filter(r => new Date(r.datetime) >= now);
+  const past = sorted.filter(r => new Date(r.datetime) < now);
+  let html = '';
+  if (!state.reminders.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🔔</div><div class="empty-text">Belum ada pengingat</div></div>'; return; }
+  if (upcoming.length) {
+    html += '<div class="section-title" style="padding-top:0;">⏰ Mendatang</div>';
+    html += upcoming.map(r => reminderCard(r, false)).join('');
+  }
+  if (past.length) {
+    html += '<div class="section-title">✅ Sudah Lewat</div>';
+    html += past.slice(0,5).map(r => reminderCard(r, true)).join('');
+  }
+  el.innerHTML = html;
+}
+function reminderCard(r, past) {
+  var dt = new Date(r.datetime);
+  var diff = Math.ceil((dt - new Date()) / 86400000);
+  var diffLabel = past ? 'Sudah lewat' : (diff === 0 ? 'Hari ini!' : (diff + ' hari lagi'));
+  var borderColor = past ? 'var(--gray-200)' : 'var(--primary)';
+  var opacityVal = past ? 0.6 : 1;
+  var catIcon = CAT_ICONS[r.cat] || '📋';
+  var timeStr = (r.datetime && r.datetime.split('T')[1]) ? r.datetime.split('T')[1].slice(0,5) : '';
+  var noteHtml = r.note ? '<div class="text-xs text-muted">' + r.note + '</div>' : '';
+  var badgeClass = past ? 'badge-gray' : 'badge-primary';
+  return '<div class="card mb-2" style="border-left:4px solid ' + borderColor + '; opacity:' + opacityVal + ';">' +
+    '<div class="card-pad flex-between">' +
+      '<div style="flex:1;">' +
+        '<div class="flex-center gap-2"><span>' + catIcon + '</span><span class="text-bold">' + r.title + '</span></div>' +
+        '<div class="text-xs text-muted mt-1">' + fmtDate(r.datetime.split('T')[0]) + ' ' + timeStr + '</div>' +
+        noteHtml +
+      '</div>' +
+      '<div style="text-align:right;">' +
+        '<span class="badge ' + badgeClass + '">' + diffLabel + '</span>' +
+        '<div><button onclick="deleteReminder(' + r.id + ')" class="btn btn-sm" style="background:none;color:var(--danger);padding:4px;margin-top:4px;">🗑\uFE0F</button></div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+function deleteReminder(id) {
+  state.reminders = state.reminders.filter(r => r.id !== id);
+  saveState(); renderReminderList();
+  showToast('info','Dihapus','Pengingat berhasil dihapus.');
+}
+
+// ══════════════════════════════════════
+// KPSP SKRINING
+// ══════════════════════════════════════
+const KPSP_DATA = {
+  12: [
+    'Apakah anak dapat berdiri sendiri tanpa berpegangan selama 2 detik?',
+    'Apakah anak dapat berjalan dengan berpegangan pada perabotan?',
+    'Apakah anak dapat memasukkan benda ke dalam wadah?',
+    'Apakah anak mengucapkan "mama/papa" dengan bermakna?',
+    'Apakah anak melambaikan tangan untuk pamit?',
+    'Apakah anak merespons ketika namanya dipanggil?',
+    'Apakah anak dapat memegang benda kecil antara ibu jari dan telunjuk?',
+    'Apakah anak mencari benda yang jatuh atau disembunyikan?',
+    'Apakah anak menunjuk benda yang diinginkan?',
+    'Apakah anak bermain "cilukba"?',
+  ],
+  24: [
+    'Apakah anak dapat berlari tanpa sering jatuh?',
+    'Apakah anak dapat menendang bola kecil ke depan?',
+    'Apakah anak dapat mengucapkan minimal 20 kata yang bermakna?',
+    'Apakah anak dapat menggabungkan 2 kata (misal: "minta susu")?',
+    'Apakah anak dapat membangun menara dari 4 balok?',
+    'Apakah anak dapat menggunakan sendok dengan baik?',
+    'Apakah anak bermain pura-pura (misal: pura-pura makan)?',
+    'Apakah anak dapat menunjuk salah satu anggota tubuh ketika diminta?',
+    'Apakah anak dapat naik tangga sambil berpegangan?',
+    'Apakah anak dapat mengikuti perintah 2 langkah?',
+  ],
+};
+
+function renderKPSP() {
+  const sel = parseInt(document.getElementById('kpspAgeSelect').value);
+  const data = KPSP_DATA[sel];
+  const body = document.getElementById('kpspBody');
+  if (!data) { body.innerHTML = '<div class="empty-state"><div class="empty-icon">🧩</div><div class="empty-text">Data KPSP untuk usia ini segera hadir</div></div>'; return; }
+  var cdK=getChildData(); if(!cdK){ body.innerHTML='<div class="empty-state"><div class="empty-icon">👶</div><div class="empty-text">Pilih anak terlebih dahulu</div></div>'; return; }
+  const key = 'kpsp_' + sel;
+  const answers = (cdK.kpsp && cdK.kpsp[key]) ? cdK.kpsp[key] : {};
+  const yesCount = Object.values(answers).filter(Boolean).length;
+  let html = `<div class="card mb-2"><div class="card-pad">
+    <div class="text-bold mb-1">KPSP Usia ${sel} Bulan</div>
+    <div class="text-xs text-muted">Jawab "Ya" jika anak dapat melakukan. Hitung skor di akhir.</div>
+    <div class="progress-wrap mt-2"><div class="progress-bar progress-teal" style="width:${yesCount/data.length*100}%"></div></div>
+    <div class="text-xs text-muted mt-1">${yesCount}/${data.length} "Ya"</div>
+  </div></div>`;
+  data.forEach((q, i) => {
+    const yes = answers[i] === true;
+    const no = answers[i] === false;
+    html += `<div class="card mb-2"><div class="card-pad">
+      <div class="text-sm mb-2"><strong>${i+1}.</strong> ${q}</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="answerKPSP(${sel},${i},true)" class="btn btn-sm ${yes?'btn-success':'btn-outline'}" style="flex:1;">✅ Ya</button>
+        <button onclick="answerKPSP(${sel},${i},false)" class="btn btn-sm ${no?'btn-danger':'btn-outline'}" style="flex:1;">❌ Tidak</button>
+      </div>
+    </div></div>`;
+  });
+  // Score interpretation
+  const allAnswered = Object.keys(answers).length === data.length;
+  if (allAnswered) {
+    let interp, color;
+    if (yesCount >= 9) { interp = '✅ Sesuai — Perkembangan anak sesuai dengan usianya. Pertahankan stimulasi!'; color = 'var(--success)'; }
+    else if (yesCount >= 7) { interp = '⚠️ Meragukan — Lakukan evaluasi ulang 2 minggu kemudian. Tingkatkan stimulasi.'; color = 'var(--warning)'; }
+    else { interp = '🚨 Penyimpangan — Segera konsultasikan ke dokter anak atau puskesmas terdekat.'; color = 'var(--danger)'; }
+    html += `<div class="card" style="border-left:4px solid ${color};"><div class="card-pad">
+      <div class="text-bold mb-1">Hasil Skrining KPSP</div>
+      <div style="font-size:13px;color:${color};">${interp}</div>
+      <div class="text-xs text-muted mt-2">Skor: ${yesCount}/10 • Skrining ini bukan diagnosis. Konsultasikan hasilnya ke dokter anak.</div>
+    </div></div>`;
+  }
+  body.innerHTML = html;
+}
+
+function answerKPSP(age, idx, val) {
+  var cd=getChildData(); if(!cd)return;
+  const key = 'kpsp_' + age;
+  if (!cd.kpsp) cd.kpsp = {};
+  if (!cd.kpsp[key]) cd.kpsp[key] = {};
+  cd.kpsp[key][idx] = val;
+  saveState();
+  renderKPSP();
+}
+
+// ══════════════════════════════════════
+// VITAMIN
+// ══════════════════════════════════════
+function renderVitamin() {
+  const VITS = [
+    { icon:'☀️', name:'Vitamin D', desc:'400-600 IU/hari untuk bayi 0-12 bulan. Paparan sinar matahari pagi 15-30 menit.', when:'Setiap pagi setelah mandi', important:true },
+    { icon:'💊', name:'Zat Besi (Fe)', desc:'1 mg/kgBB/hari mulai usia 6 bulan, atau sesuai indikasi. MPASI kaya zat besi sangat dianjurkan.', when:'Bersamaan makan siang', important:true },
+    { icon:'🧬', name:'Zinc', desc:'Penting untuk pertumbuhan dan imunitas. Didapat dari daging merah, kacang, dan biji-bijian.', when:'Dari makanan sehari-hari', important:false },
+    { icon:'🐟', name:'Omega-3 (DHA/EPA)', desc:'Penting untuk perkembangan otak. Dari ikan, minyak ikan, atau ASI. 0-12 bulan: 100mg DHA/hari.', when:'Dari MPASI/susu fortifikasi', important:false },
+    { icon:'🦷', name:'Fluoride', desc:'Suplementasi oral fluoride jika kadar fluoride air rendah. Konsultasikan ke dokter gigi anak.', when:'Sesuai anjuran dokter', important:false },
+    { icon:'💉', name:'Vitamin K', desc:'Diberikan injeksi IM saat lahir untuk mencegah perdarahan. Sudah rutin di fasilitas kesehatan.', when:'Diberikan saat lahir', important:true },
+  ];
+  let html = '<div class="card mb-2"><div class="card-pad"><div class="text-bold mb-1">💊 Panduan Vitamin & Suplemen</div><div class="text-xs text-muted">Selalu konsultasikan pemberian suplemen ke dokter anak. Dosis sesuai usia dan kondisi.</div></div></div>';
+  VITS.forEach(function(v) {
+    var borderStyle = v.important ? 'border-left:4px solid var(--primary);' : '';
+    var importantBadge = v.important ? '<span class="badge badge-primary">Penting</span>' : '';
+    html += '<div class="card mb-2" style="' + borderStyle + '"><div class="card-pad">' +
+      '<div class="flex-center gap-2 mb-1"><span style="font-size:24px;">' + v.icon + '</span><span class="text-bold">' + v.name + '</span>' + importantBadge + '</div>' +
+      '<div class="text-sm text-muted">' + v.desc + '</div>' +
+      '<div class="text-xs mt-2" style="color:var(--primary);font-weight:600;">&#x23F0; ' + v.when + '</div>' +
+      '</div></div>';
+  });
+  document.getElementById('vitaminBody').innerHTML = html;
+}
+
+// ══════════════════════════════════════
+// UPCOMING VAKSIN on Beranda
+// ══════════════════════════════════════
+function renderUpcomingVaksin() {
+  const el = document.getElementById('upcomingVaksinList');
+  const c = getActiveChild();
+  const cd = getChildData();
+  if (!c || !c.dob) { el.innerHTML = '<div class="text-muted text-sm px-3" style="padding:0 0 8px;">Lengkapi profil anak untuk melihat jadwal vaksin</div>'; return; }
+  const age = getAgeFromDob(c.dob);
+  var vaksinUV = cd ? (cd.vaksin||{}) : {};
+  const pending = VAKSIN_DATA.filter(function(v){ return !(vaksinUV[v.id]&&vaksinUV[v.id].done) && v.ageMonths >= age.totalMonths && v.ageMonths <= age.totalMonths + 3; }).slice(0, 3);
+  if (!pending.length) { el.innerHTML = '<div class="card mb-2"><div class="card-pad text-center"><span class="text-success text-bold">✅ Vaksin usia ini sudah lengkap!</span></div></div>'; return; }
+  el.innerHTML = pending.map(v => `<div class="vaksin-item" onclick="openModal('modal-vaksin')" style="background:var(--bg-card);">
+    <div class="vaksin-status vs-soon">⏰</div>
+    <div><div class="vaksin-name">${v.name}</div><div class="vaksin-desc">Usia ${v.ageMonths} bulan • ${v.desc}</div></div>
+    <span style="font-size:18px;color:var(--text-secondary);">›</span>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════
+// TODAY MILESTONE on Beranda
+// ══════════════════════════════════════
+function renderTodayMilestone() {
+  const el = document.getElementById('todayMilestoneList');
+  const c = getActiveChild();
+  const cd = getChildData();
+  if (!c || !c.dob) { el.innerHTML = ''; return; }
+  const age = getAgeFromDob(c.dob);
+  const m = age.totalMonths;
+  // Find closest age in milestone data
+  const ages = Object.keys(MILESTONE_DATA).map(Number);
+  const closest = ages.reduce((a,b) => Math.abs(b-m) < Math.abs(a-m) ? b : a);
+  const data = MILESTONE_DATA[closest];
+  if (!data) { el.innerHTML = ''; return; }
+  const samples = data.motorik_kasar.slice(0,2).concat(data.bahasa.slice(0,2));
+  el.innerHTML = `<div class="card mb-2"><div class="card-pad">
+    <div class="flex-between mb-2"><span class="text-bold">Pencapaian ~${closest} Bulan</span><button onclick="openModal('modal-milestone')" style="background:none;border:none;color:var(--primary);font-size:12px;font-weight:600;">Lihat Semua ›</button></div>
+    ${samples.map((s,i) => {
+      const key = `${closest}_motorik_kasar_${i}`;
+      const done = cd.milestone ? cd.milestone[key] : false;
+      var msKey = closest + '_motorik_kasar_' + i;
+    var msDone = cd && cd.milestone ? cd.milestone[msKey] : false;
+    return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gray-200);">' +
+      '<div style="width:20px;height:20px;border-radius:50%;background:' + (msDone?'var(--success)':'var(--gray-200)') + ';display:flex;align-items:center;justify-content:center;font-size:11px;color:white;flex-shrink:0;">' + (msDone?'✓':'') + '</div>' +
+      '<span class="text-sm ' + (msDone?'text-success':'') + '">' + s + '</span>' +
+      '</div>';
+    }).join('')}
+  </div></div>`;
+}
+
+// ══════════════════════════════════════
+// EDUKASI
+// ══════════════════════════════════════
+const EDUKASI_DATA = [
+  { cat:'0-6', icon:'🍼', title:'Pentingnya ASI Eksklusif 6 Bulan', sub:'WHO & IDAI merekomendasikan ASI eksklusif selama 6 bulan pertama kehidupan. ASI mengandung antibodi, nutrisi sempurna, dan mendukung perkembangan otak.' },
+  { cat:'0-6', icon:'😴', title:'Posisi Tidur Aman untuk Bayi', sub:'Selalu tidurkan bayi telentang (Back to Sleep) untuk mencegah SIDS. Hindari bantal, selimut tebal, dan bumper box di tempat tidur.' },
+  { cat:'0-6', icon:'🤱', title:'Teknik Menyusui yang Benar', sub:'Pastikan perlekatan (latch-on) yang benar: mulut bayi menutup sebagian besar areola, bukan hanya puting. Ini mencegah puting lecet dan memastikan bayi mendapat ASI cukup.' },
+  { cat:'6-12', icon:'🥣', title:'Panduan Memulai MPASI', sub:'Mulai MPASI tepat usia 6 bulan dengan tekstur halus. Kenalkan makanan bergizi tinggi: protein hewani, sayur, dan buah. Hindari gula dan garam.' },
+  { cat:'6-12', icon:'🦷', title:'Merawat Gigi Bayi Sejak Dini', sub:'Gigi pertama tumbuh sekitar usia 6-8 bulan. Mulai sikat gigi dengan sikat berbulu lembut dan air saja. Hindari minuman manis sebelum tidur.' },
+  { cat:'6-12', icon:'🧠', title:'Stimulasi Perkembangan Bayi 6-12 Bulan', sub:'Bermain cilukba, membacakan buku bergambar, bernyanyi, dan permainan sensorik merangsang perkembangan kognitif dan bahasa bayi.' },
+  { cat:'1-2thn', icon:'🚶', title:'Mendukung Anak Belajar Berjalan', sub:'Biarkan anak belajar jatuh — itu bagian dari proses belajar. Singkirkan benda berbahaya, sediakan permukaan aman, dan jangan terlalu banyak mendudukkan anak.' },
+  { cat:'1-2thn', icon:'📱', title:'Screen Time untuk Anak di Bawah 2 Tahun', sub:'AAP merekomendasikan TIDAK ada screen time untuk anak di bawah 18 bulan, kecuali video call. Usia 18-24 bulan: konten berkualitas tinggi dengan pendampingan orang tua.' },
+  { cat:'2-5thn', icon:'🎭', title:'Tantrum: Normal dan Cara Menghadapinya', sub:'Tantrum adalah tahap perkembangan normal usia 1-4 tahun. Respons dengan tenang, validasi perasaan, dan tetapkan batasan yang konsisten.' },
+  { cat:'2-5thn', icon:'📚', title:'Membangun Kebiasaan Membaca Sejak Dini', sub:'Membacakan buku 20 menit per hari membangun kosakata, imajinasi, dan kecintaan belajar. Pilih buku bergambar berwarna cerah dengan teks sederhana.' },
+  { cat:'parenting', icon:'❤️', title:'Pentingnya Attachment / Kelekatan Aman', sub:'Kelekatan aman terbentuk melalui respons konsisten terhadap kebutuhan bayi. Ini fondasi kesehatan mental yang baik sepanjang hidup.' },
+  { cat:'parenting', icon:'🙌', title:'Positive Parenting: Mendisiplinkan Tanpa Kekerasan', sub:'Gunakan konsekuensi logis, pujian spesifik, dan waktu bersama yang berkualitas. Hindari hukuman fisik yang terbukti merusak perkembangan psikologis.' },
+];
+
+let currentEduCat = 'semua';
+function filterEdukasi(btn, cat) {
+  document.querySelectorAll('#edukasiCat .ecat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentEduCat = cat;
+  renderEdukasi();
+}
+function renderEdukasi() {
+  const filtered = currentEduCat === 'semua' ? EDUKASI_DATA : EDUKASI_DATA.filter(a => a.cat === currentEduCat);
+  document.getElementById('edukasiList').innerHTML = filtered.map(a => `
+    <div class="artikel-card">
+      <div class="artikel-img">${a.icon}</div>
+      <div class="artikel-body">
+        <div class="artikel-cat">${a.cat}</div>
+        <div class="artikel-title">${a.title}</div>
+        <div class="artikel-preview">${a.sub}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════
+// DOA ANAK
+// ══════════════════════════════════════
+const DOA_DATA = [
+  { title:'Doa untuk Anak yang Sholeh', arab:'رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاء', latin:'Rabbij\'alnii muqiimas salaati wa min dzurriyyatii, rabbanaa wa taqabbal du\'aa.', arti:'Ya Tuhanku, jadikanlah aku dan anak cucuku orang-orang yang tetap mendirikan salat, ya Tuhan kami, perkenankanlah doaku. (QS. Ibrahim: 40)' },
+  { title:'Doa Memohon Keturunan yang Baik', arab:'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا', latin:'Rabbanaa hab lanaa min azwaajinaa wa dzurriyyaatinaa qurrata a\'yun, waj\'alnaa lil muttaqiina imaama.', arti:'Ya Tuhan kami, anugerahkanlah kepada kami pasangan kami dan keturunan kami sebagai penyenang hati kami dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa. (QS. Al-Furqan: 74)' },
+  { title:'Doa Sebelum Tidur Anak', arab:'بِاسْمِكَ اللَّهُمَّ أَحْيَا وَأَمُوتُ', latin:'Bismika Allaahumma ahyaa wa amuut.', arti:'Dengan menyebut nama-Mu ya Allah, aku hidup dan aku mati.' },
+  { title:'Doa Sebelum Makan', arab:'اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ', latin:'Allaahumma baarik lanaa fiimaa razaqtanaa wa qinaa \'adzaaban naar.', arti:'Ya Allah, berkahilah kami pada apa yang Engkau rizkikan kepada kami, dan jauhkanlah kami dari siksa neraka.' },
+  { title:'Doa Kesehatan untuk Anak', arab:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي', latin:'Allaahumma \'aafinii fii badanii, Allaahumma \'aafinii fii sam\'ii, Allaahumma \'aafinii fii bashorii.', arti:'Ya Allah, sehatkanlah badanku. Ya Allah, sehatkanlah pendengaranku. Ya Allah, sehatkanlah penglihatanku.' },
+  { title:'Doa Perlindungan Anak', arab:'أُعِيذُكَ بِكَلِمَاتِ اللهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ', latin:'U\'iidzuka bi kalimaaatillaahit taammaati min kulli syaithooni wa haammatin wa min kulli \'aynin laammah.', arti:'Aku memohon perlindungan bagimu dengan kalimat-kalimat Allah yang sempurna dari setiap setan, binatang berbisa, dan dari setiap mata yang jahat. (HR. Bukhari)' },
+];
+
+function renderDoa() {
+  document.getElementById('doaList').innerHTML = DOA_DATA.map(d => `
+    <div class="doa-card">
+      <div class="doa-title">🤲 ${d.title}</div>
+      <div class="doa-arab">${d.arab}</div>
+      <div class="doa-latin">${d.latin}</div>
+      <div style="background:rgba(255,255,255,0.15);height:1px;margin:8px 0;"></div>
+      <div class="doa-arti">${d.arti}</div>
+    </div>`).join('') +
+    `<div class="card mb-2" style="background:var(--primary-light);margin-top:12px;"><div class="card-pad text-center">
+      <div style="font-size:24px;margin-bottom:6px;">📖</div>
+      <div class="text-bold" style="color:var(--primary-dark);">Surah Pilihan untuk Diperdengarkan</div>
+      <div class="text-xs text-muted mt-2">Al-Fatihah • Al-Baqarah 1-5 • Ayat Kursi • Al-Ikhlas • Al-Falaq • An-Naas</div>
+      <div class="text-xs text-muted mt-2">Perdengarkan murottal kepada bayi sejak dalam kandungan untuk stimulasi pendengaran dan kelekatan spiritual 🌱</div>
+    </div></div>`;
+}
+
+// ══════════════════════════════════════
+// PROFILE
+// ══════════════════════════════════════
+function loadProfileForm() {
+  var c = getActiveChild();
+  // Render children list in profile tab
+  renderChildrenList();
+  if (!c) { return; }
+  document.getElementById('p_name').value = c.name || '';
+  document.getElementById('p_dob').value = c.dob || '';
+  document.getElementById('p_gender').value = c.gender || '';
+  document.getElementById('p_birthweight').value = c.birthWeight || '';
+  document.getElementById('p_birthlength').value = c.birthLength || '';
+  document.getElementById('p_mother').value = c.mother || '';
+  document.getElementById('p_father').value = c.father || '';
+  if (c.name) { document.getElementById('profileName').textContent = c.name; document.getElementById('profileAvatar').textContent = c.gender === 'P' ? '👧' : '👦'; }
+  if (c.dob) { var age = getAgeFromDob(c.dob); document.getElementById('profileAge').textContent = formatAge(age) + ' • ' + fmtDate(c.dob); }
+}
+
+function renderChildrenList() {
+  var el = document.getElementById('childrenListProfile');
+  if (!el) return;
+  var children = state.children || [];
+  if (!children.length) { el.innerHTML = ''; return; }
+  var html = '';
+  children.forEach(function(ch) {
+    var isActive = ch.id === state.activeChildId;
+    var chAge = getAgeFromDob(ch.dob);
+    var chEmoji = ch.gender === 'P' ? '👧' : '👦';
+    var bgColor = isActive ? 'var(--primary-light)' : 'var(--bg-card)';
+    var borderStyle = isActive ? '1.5px solid var(--primary)' : '1px solid var(--border-card)';
+    var activeBadge = isActive ? ' <span style="font-size:10px;background:var(--primary);color:white;padding:2px 7px;border-radius:10px;">Aktif</span>' : '';
+    var switchBtn = !isActive ? '<button onclick="switchChild(\'' + ch.id + '\')" class="btn btn-sm btn-primary">Pilih</button>' : '';
+    var editBtn = '<button onclick="showOnboarding(\'edit\',\'' + ch.id + '\')" class="btn btn-sm btn-outline">Edit</button>';
+    var deleteBtn = children.length > 1 ? '<button onclick="deleteChild(\'' + ch.id + '\')" class="btn btn-sm" style="background:none;color:var(--danger);border:1.5px solid var(--danger);">Hapus</button>' : '';
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:' + bgColor + ';border:' + borderStyle + ';margin-bottom:8px;">' +
+      '<span style="font-size:28px;">' + chEmoji + '</span>' +
+      '<div style="flex:1;">' +
+        '<div style="font-weight:700;font-size:14px;color:var(--text-primary);">' + ch.name + activeBadge + '</div>' +
+        '<div style="font-size:11px;color:var(--text-secondary);">' + (chAge ? formatAge(chAge) : '—') + ' • Lahir: ' + fmtDate(ch.dob) + '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px;">' + switchBtn + editBtn + deleteBtn + '</div>' +
+    '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function saveProfile() {
+  var c = getActiveChild();
+  if (!c) return;
+  var idx = state.children.findIndex(function(ch){ return ch.id === state.activeChildId; });
+  if (idx < 0) return;
+  state.children[idx] = {
+    ...state.children[idx],
+    name: document.getElementById('p_name').value.trim(),
+    dob: document.getElementById('p_dob').value,
+    gender: document.getElementById('p_gender').value,
+    birthWeight: parseFloat(document.getElementById('p_birthweight').value)||0,
+    birthLength: parseFloat(document.getElementById('p_birthlength').value)||0,
+    mother: document.getElementById('p_mother').value.trim(),
+    father: document.getElementById('p_father').value.trim()
+  };
+  saveState();
+  updateHeader(); updateHeaderStats(); updateSmartInsight();
+  renderUpcomingVaksin(); renderTodayMilestone();
+  loadProfileForm();
+  showToast('success','Profil disimpan!','Data anak berhasil diperbarui');
+}
+
+function requestNotifPermission() {
+  if (!('Notification' in window)) { showToast('warning','Tidak didukung','Browser ini tidak mendukung notifikasi.'); return; }
+  Notification.requestPermission().then(p => {
+    if (p === 'granted') showToast('success','Notifikasi aktif!','Anda akan mendapat pengingat vaksin dan milestone 🔔');
+    else showToast('warning','Ditolak','Izinkan notifikasi di pengaturan browser Anda.');
+  });
+}
+
+function confirmReset() {
+  if (confirm('Reset semua data? Semua profil anak dan catatan akan dihapus. Tindakan ini tidak bisa dibatalkan.')) {
+    localStorage.removeItem(STATE_KEY);
+    location.reload();
+  }
+}
+
+// ══════════════════════════════════════
+// SHARE CARD
+// ══════════════════════════════════════
+function generateShareCard() {
+  const c = getActiveChild();
+  const cd = getChildData();
+  if (!c || !c.dob) { showToast('warning','Lengkapi profil','Isi profil anak terlebih dahulu'); return; }
+  const canvas = document.getElementById('shareCardCanvas');
+  const W = 400, H = 220;
+  canvas.width = W * 2; canvas.height = H * 2;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(2, 2);
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#004D40'); grad.addColorStop(1, '#00897B');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+  // Decorative circles
+  ctx.beginPath(); ctx.arc(W-30, 30, 60, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.07)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(40, H-20, 40, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.fill();
+  // Title
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('🌱 ORTI PINTAR — Kartu Tumbuh Kembang', 20, 25);
+  // Child name
+  ctx.fillStyle = 'white'; ctx.font = 'bold 22px sans-serif';
+  ctx.fillText(c.gender === 'P' ? '👧' : '👦', 20, 65);
+  ctx.font = 'bold 20px sans-serif'; ctx.fillText(c.name, 52, 65);
+  // Age
+  const age = getAgeFromDob(c.dob);
+  ctx.font = '13px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillText(`${formatAge(age)} • Lahir: ${fmtDate(c.dob)}`, 20, 88);
+  // Stats
+  const growthSC = cd ? cd.growth : [];
+  const latest = growthSC.length ? growthSC[growthSC.length-1] : null;
+  const done = Object.values(cd ? cd.vaksin||{} : {}).filter(function(v){ return v&&v.done; }).length;
+  const stats = [
+    { lbl:'BERAT', val: latest?.bb ? `${latest.bb} kg` : '—' },
+    { lbl:'TINGGI', val: latest?.tb ? `${latest.tb} cm` : '—' },
+    { lbl:'VAKSIN', val: `${done}/${VAKSIN_DATA.length}` },
+  ];
+  stats.forEach((s, i) => {
+    const x = 20 + i * 125;
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillStyle = "rgba(255,255,255,0.15)"; ctx.fillRect(x, 105, 115, 70); ctx.fill();
+    ctx.fillStyle = 'white'; ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(s.val, x + 57, 140);
+    ctx.font = 'bold 9px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillText(s.lbl, x + 57, 160);
+  });
+  // Footer
+  ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '10px sans-serif';
+  ctx.fillText('ortu-pintar.vercel.app', W/2, H - 12);
+  document.getElementById('shareCardModal').classList.add('active');
+}
+
+function closeShareCard() { document.getElementById('shareCardModal').classList.remove('active'); }
+function downloadShareCard() {
+  const canvas = document.getElementById('shareCardCanvas');
+  const a = document.createElement('a'); a.download = `Orti-Pintar-${state.child.name||'Anak'}.png`; a.href = canvas.toDataURL('image/png'); a.click();
+  showToast('success','Tersimpan!','Kartu berhasil didownload 📥');
+}
+function shareCardWA() {
+  const c = getActiveChild();
+  if (!c) return;
+  const age = getAgeFromDob(c.dob);
+  const cd2 = getChildData();
+  const done = Object.values(cd2 ? cd2.vaksin||{} : {}).filter(function(v){ return v&&v.done; }).length;
+  const txt = `Halo! 🌱\n\nAlhamdulillah ${c.name} sudah berusia ${formatAge(age)}.\n\nVaksinasi: ${done}/${VAKSIN_DATA.length} selesai ✅\n\nMohon doanya untuk tumbuh kembang si kecil 🙏\n\n— dipantau lewat Ortu Pintar\nortu-pintar.vercel.app`;
+  const canvas = document.getElementById('shareCardCanvas');
+  if (navigator.share && navigator.canShare) {
+    canvas.toBlob(blob => {
+      const file = new File([blob],'ortu-pintar.png',{type:'image/png'});
+      if (navigator.canShare({files:[file]})) navigator.share({files:[file],text:txt}).catch(()=>window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank'));
+      else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank');
+    });
+  } else window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank');
+}
+
+// ══════════════════════════════════════
+// OFFLINE
+// ══════════════════════════════════════
+function initOffline() {
+  window.addEventListener('offline', () => document.getElementById('offlineBanner').style.display = 'block');
+  window.addEventListener('online', () => document.getElementById('offlineBanner').style.display = 'none');
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+function init() {
+  loadState();
+  initSplash();
+  initDarkMode();
+  initOffline();
+  // Set active child if none set but children exist
+  if (!state.activeChildId && state.children && state.children.length > 0) {
+    state.activeChildId = state.children[0].id;
+  }
+  updateHeader();
+  updateHeaderStats();
+  updateSmartInsight();
+  renderUpcomingVaksin();
+  renderTodayMilestone();
+  renderRecentJurnal();
+  // Auto-select milestone age based on active child's age
+  var ac = getActiveChild();
+  if (ac && ac.dob) {
+    var age = getAgeFromDob(ac.dob);
+    var m = age.totalMonths;
+    var ages = [1,2,3,4,6,9,12,15,18,24,36,48];
+    var closest = ages.reduce(function(a,b){ return Math.abs(b-m) < Math.abs(a-m) ? b : a; });
+    var sel = document.getElementById('milestoneAgeSelect');
+    if (sel) sel.value = closest;
+  }
+  setTimeout(function(){ if (!state.children || state.children.length === 0) showOnboarding('new'); }, 2200);
+  // Ensure home tab active
+  document.querySelector('[data-tab="beranda"]').classList.add('active');
+}
+
+init();
+</script>
+
+<!-- PWA Service Worker -->
+<!-- Service Worker disabled for local file use -->
+</body>
+</html>
